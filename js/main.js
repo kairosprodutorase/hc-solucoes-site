@@ -22,26 +22,39 @@
     let W = 0, H = 0, dpr = 1, particles = [], visible = true, raf = 0;
     const pointer = { x: -9999, y: -9999, active: false };
 
+    // O símbolo HC é desenhado fora da tela e amostrado: cada pixel vira um alvo.
+    // Pixels do mostrador (lima) viram partículas na cor-sinal.
+    const symbolImg = new Image();
+    const symbolReady = new Promise((res) => {
+      symbolImg.onload = res; symbolImg.onerror = res;
+      symbolImg.src = './assets/logo/hc-simbolo-negativo.svg';
+    });
+
     const buildTargets = () => {
       const off = document.createElement('canvas');
       off.width = W; off.height = H;
-      const o = off.getContext('2d');
+      const o = off.getContext('2d', { willReadFrequently: true });
       const mobile = W < 720;
-      let size = Math.min(W * (mobile ? 0.62 : 0.5), H * (mobile ? 0.42 : 0.62));
-      o.font = `800 ${size}px "Inter Tight", system-ui, sans-serif`;
-      o.textAlign = 'center';
-      o.textBaseline = 'middle';
-      o.fillStyle = '#fff';
-      o.fillText('HC', W / 2, H * (mobile ? 0.5 : 0.53));
+      const h = Math.min(H * (mobile ? 0.34 : 0.56), (W * (mobile ? 0.7 : 0.52)) * 120 / 152);
+      const w = h * 152 / 120;
+      const cx = W / 2, cy = H * 0.53;
+      if (symbolImg.naturalWidth || symbolImg.width) {
+        o.drawImage(symbolImg, cx - w / 2, cy - h / 2, w, h);
+      } else {
+        o.font = `800 ${h}px "Inter Tight", system-ui, sans-serif`;
+        o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillStyle = '#fff';
+        o.fillText('HC', cx, cy);
+      }
       const data = o.getImageData(0, 0, W, H).data;
-      const max = mobile ? 1100 : 2600;
+      const max = mobile ? 1200 : 2800;
       let area = 0;
       for (let i = 3; i < data.length; i += 16) if (data[i] > 128) area += 4;
       const step = Math.max(3, Math.round(Math.sqrt(area / max)));
       const pts = [];
       for (let y = 0; y < H; y += step) {
         for (let x = 0; x < W; x += step) {
-          if (data[(y * W + x) * 4 + 3] > 128) pts.push([x, y]);
+          const k = (y * W + x) * 4;
+          if (data[k + 3] > 128) pts.push([x, y, data[k + 2] < 150]);
         }
       }
       return pts;
@@ -54,14 +67,15 @@
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const targets = buildTargets();
-      particles = targets.map(([tx, ty]) => ({
+      particles = targets.map(([tx, ty, gauge]) => ({
         tx, ty,
         x: Math.random() * W, y: Math.random() * H,
         ox: 0, oy: 0, vx: 0, vy: 0,
         delay: Math.random() * 0.35,
         speed: 0.4 + Math.random() * 1.1,
         size: Math.random() < 0.12 ? 2.2 : 1.4,
-        accent: Math.random() < 0.09
+        gauge,
+        accent: gauge || Math.random() < 0.05
       }));
       if (reduceMotion) draw(0);
     };
@@ -97,7 +111,7 @@
         const py = q.y + (q.ty - q.y) * e + q.oy;
         q.px = px; q.py = py;
         ctx.globalAlpha = reduceMotion ? 0.3 : 0.35 + e * 0.6;
-        ctx.fillStyle = q.accent ? ACCENT : INK;
+        ctx.fillStyle = (q.gauge ? e > 0.5 : q.accent) ? ACCENT : INK;
         ctx.fillRect(px, py, q.size, q.size);
       }
       ctx.globalAlpha = 1;
@@ -135,7 +149,7 @@
       resizeTimer = setTimeout(init, 180);
     });
 
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { init(); start(); });
+    Promise.all([document.fonts ? document.fonts.ready : null, symbolReady]).then(() => { init(); start(); });
   }
 
   /* ---------- Manifesto: palavras acendem com o scroll ---------- */
@@ -158,7 +172,7 @@
   }
 
   /* ---------- Revelação ao entrar na tela ---------- */
-  const revealables = document.querySelectorAll('.section__head, .step, .card, .outro > *');
+  const revealables = document.querySelectorAll('.section__head, .step, .card, .outro > *, .climate__head');
   if (!reduceMotion && 'IntersectionObserver' in window) {
     revealables.forEach((el, i) => {
       el.setAttribute('data-reveal', '');
@@ -174,7 +188,13 @@
     revealables.forEach((el) => el.classList.add('in'));
   }
 
-  /* ---------- Scroll: progresso global, hero e manifesto ---------- */
+  /* ---------- Climatização ---------- */
+  const climate = document.querySelector('[data-climate]');
+  const tempEls = climate ? climate.querySelectorAll('[data-temp], [data-temp-display]') : [];
+  const climateState = climate && climate.querySelector('[data-climate-state]');
+  let lastTemp = null;
+
+  /* ---------- Scroll: progresso global, hero, clima e manifesto ---------- */
   const bar = document.querySelector('.progress');
   const root = document.documentElement;
   let ticking = false;
@@ -189,6 +209,18 @@
       hero.style.setProperty('--hp', heroProgress.toFixed(4));
       if (stateLabel) {
         stateLabel.textContent = heroProgress < 0.3 ? 'complexo' : heroProgress < 0.85 ? 'em organização' : 'claro';
+      }
+    }
+
+    if (climate && !reduceMotion) {
+      const r = climate.getBoundingClientRect();
+      const cp = clamp((-r.top / Math.max(1, r.height - window.innerHeight)) * 1.15);
+      climate.style.setProperty('--cp', cp.toFixed(4));
+      const t = Math.round(32 - cp * 10);
+      if (t !== lastTemp) {
+        lastTemp = t;
+        tempEls.forEach((el) => { el.textContent = el.hasAttribute('data-temp-display') ? `${t}°` : t; });
+        if (climateState) climateState.textContent = t >= 29 ? 'Calor' : t >= 25 ? 'Resfriando' : 'Conforto';
       }
     }
 

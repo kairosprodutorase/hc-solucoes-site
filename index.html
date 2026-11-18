@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0e0e0c">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="HC Soluções — do complexo ao claro. Novo site em preparação.">
-  <title>HC Soluções — Do complexo ao claro</title>
+  <meta name="description" content="HC Soluções — ar-condicionado e climatização. Do calor ao conforto. Novo site em preparação.">
+  <title>HC Soluções — Ar-condicionado e climatização</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,26 +16,36 @@
   <script src="./js/main.js" defer></script>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="hc-symbol" viewBox="0 0 152 120">
+      <rect x="0" y="14" width="18" height="92" fill="currentColor"/><rect x="46" y="14" width="18" height="92" fill="currentColor"/>
+      <rect x="18" y="45" width="28" height="6" fill="currentColor"/><rect x="18" y="57" width="28" height="6" fill="currentColor"/><rect x="18" y="69" width="28" height="6" fill="currentColor"/>
+      <path d="M144.62 34.30A37 37 0 1 0 105.95 94.98" fill="none" stroke="currentColor" stroke-width="18"/>
+      <path d="M108.42 95.74A37 37 0 0 0 144.62 85.70" fill="none" style="stroke:var(--gauge,#d2ff3c)" stroke-width="18"/>
+    </symbol>
+  </svg>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <div class="progress" aria-hidden="true"><span></span></div>
   <div class="grain" aria-hidden="true"></div>
 
   <header class="nav">
     <a class="brand" href="#topo" aria-label="HC Soluções — início">
-      <span class="brand__mark">HC</span><span class="brand__name">Soluções</span>
+      <svg class="brand__mark" aria-hidden="true"><use href="#hc-symbol"/></svg><span class="brand__name">Soluções</span>
     </a>
     <nav aria-label="Seções">
       <ul>
+        <li><a href="#clima">Climatização</a></li>
         <li><a href="#manifesto">Manifesto</a></li>
         <li><a href="#metodo">Método</a></li>
         <li><a href="#bastidores">Bastidores</a></li>
+        <li><a href="./marca.html">Marca</a></li>
       </ul>
     </nav>
     <span class="status-pill"><i aria-hidden="true"></i>Em preparação</span>
   </header>
 
   <main id="conteudo">
-    <!-- 00 · HERO: partículas saem do caos e se organizam em "HC" conforme o scroll -->
+    <!-- 00 · HERO: partículas saem do caos e se organizam no símbolo HC conforme o scroll -->
     <section class="hero" id="topo" aria-labelledby="hero-title" data-hero>
       <div class="hero__stage">
         <canvas class="hero__canvas" aria-hidden="true"></canvas>
@@ -49,7 +59,7 @@
           <span class="line"><span>ao <em>claro.</em></span></span>
         </h1>
         <div class="hero__foot">
-          <p>Toda solução começa como ruído. O trabalho é encontrar a forma que já estava lá.</p>
+          <p>Ar-condicionado e climatização. Toda solução começa como ruído — o trabalho é encontrar a forma que já estava lá.</p>
           <div class="hero__meter mono" aria-hidden="true">
             <span>caos</span><span class="meter"><i data-hero-meter></i></span><span>ordem</span>
           </div>
@@ -57,10 +67,72 @@
       </div>
     </section>
 
-    <!-- 01 · MANIFESTO -->
+    <!-- 01 · CLIMATIZAÇÃO: o aparelho com a marca; o scroll esfria o ambiente -->
+    <section class="climate" id="clima" aria-labelledby="clima-title" data-climate>
+      <div class="climate__stage">
+        <div class="climate__air" aria-hidden="true"></div>
+        <header class="climate__head">
+          <span class="mono idx">01</span>
+          <h2 id="clima-title" class="climate__title">Do calor ao <em>conforto.</em></h2>
+        </header>
+        <figure class="climate__unit">
+          <svg class="split" viewBox="0 0 960 360" role="img" aria-labelledby="split-title">
+            <title id="split-title">Aparelho de ar-condicionado split com a marca HC Soluções</title>
+            <defs>
+              <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#fcfbf7"/><stop offset=".62" stop-color="#ece9e1"/><stop offset="1" stop-color="#d3cfc4"/>
+              </linearGradient>
+              <linearGradient id="ac-sheen" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="ac-air" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#d2ff3c" stop-opacity=".9"/><stop offset="1" stop-color="#d2ff3c" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="ac-shadow" x="-10%" y="-20%" width="120%" height="160%">
+                <feDropShadow dx="0" dy="26" stdDeviation="22" flood-color="#000" flood-opacity=".55"/>
+              </filter>
+            </defs>
+            <g class="split__air" stroke="url(#ac-air)" stroke-width="2.4" fill="none" stroke-linecap="round">
+              <path d="M150 236C150 286 110 320 70 356"/>
+              <path d="M270 238C266 292 236 330 210 358"/>
+              <path d="M400 240C398 296 386 330 376 358"/>
+              <path d="M530 240C532 296 546 330 556 358"/>
+              <path d="M660 238C664 292 694 330 720 358"/>
+              <path d="M790 236C792 286 840 320 890 356"/>
+            </g>
+            <g filter="url(#ac-shadow)">
+              <rect x="40" y="24" width="880" height="214" rx="44" fill="url(#ac-body)"/>
+            </g>
+            <rect x="96" y="34" width="768" height="3" rx="1.5" fill="url(#ac-sheen)"/>
+            <path d="M84 176H876" stroke="#000" stroke-opacity=".07"/>
+            <rect x="96" y="196" width="768" height="28" rx="14" fill="#141412"/>
+            <rect class="split__glow" x="110" y="204" width="740" height="10" rx="5" fill="#d2ff3c"/>
+            <g class="split__flap"><rect x="100" y="198" width="760" height="22" rx="11" fill="#e4e0d6"/><rect x="100" y="198" width="760" height="3" rx="1.5" fill="#fff" opacity=".8"/></g>
+            <image href="./assets/logo/hc-logo-horizontal-aparelho.svg" x="96" y="82" width="215" height="55"/>
+            <g class="split__display">
+              <rect x="730" y="78" width="134" height="66" rx="16" fill="#121210"/>
+              <circle cx="748" cy="94" r="3" fill="#d2ff3c" class="split__led"/>
+              <text x="806" y="127" text-anchor="middle" class="split__temp" data-temp-display>22°</text>
+              <text x="758" y="97" class="split__mode">COOL</text>
+            </g>
+          </svg>
+        </figure>
+        <div class="climate__foot">
+          <p class="climate__readout mono" aria-live="off">
+            <span>Ambiente</span>
+            <b><span data-temp>22</span>°C</b>
+            <span class="meter"><i data-climate-meter></i></span>
+            <span data-climate-state>Conforto</span>
+          </p>
+          <p class="climate__copy">Soluções em ar-condicionado e climatização. Serviços e canais de atendimento serão apresentados em breve.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · MANIFESTO -->
     <section class="manifesto section" id="manifesto" aria-labelledby="manifesto-title">
       <header class="section__head">
-        <span class="mono idx">01</span>
+        <span class="mono idx">02</span>
         <h2 id="manifesto-title" class="mono label">Manifesto</h2>
       </header>
       <p class="manifesto__text" data-words>
@@ -78,10 +150,10 @@
       </div>
     </div>
 
-    <!-- 02 · MÉTODO -->
+    <!-- 03 · MÉTODO -->
     <section class="method section" id="metodo" aria-labelledby="metodo-title">
       <header class="section__head">
-        <span class="mono idx">02</span>
+        <span class="mono idx">03</span>
         <h2 id="metodo-title" class="mono label">Método</h2>
         <p class="section__lede">Quatro movimentos para transformar uma questão difícil em uma resposta simples.</p>
       </header>
@@ -113,10 +185,10 @@
       </ol>
     </section>
 
-    <!-- 03 · BASTIDORES: status honesto do projeto -->
+    <!-- 04 · BASTIDORES: status honesto do projeto -->
     <section class="backstage section" id="bastidores" aria-labelledby="bastidores-title">
       <header class="section__head">
-        <span class="mono idx">03</span>
+        <span class="mono idx">04</span>
         <h2 id="bastidores-title" class="mono label">Bastidores</h2>
         <p class="section__lede">O novo site está sendo construído com o mesmo método. Acompanhe o estado de cada etapa.</p>
       </header>
@@ -130,7 +202,7 @@
         <li class="card is-active" data-tilt>
           <span class="card__state mono">Em aprovação</span>
           <h3>Identidade visual</h3>
-          <p>Direção de arte, cores e tipografia em validação com a HC Soluções.</p>
+          <p>Nova marca proposta: símbolo, cores, tipografia e aplicações em validação. <a href="./marca.html">Ver a marca →</a></p>
           <span class="card__bar" style="--v:.66"></span>
         </li>
         <li class="card is-active" data-tilt>
@@ -148,11 +220,11 @@
       </ul>
     </section>
 
-    <!-- 04 · ENCERRAMENTO -->
+    <!-- 05 · ENCERRAMENTO -->
     <section class="outro" aria-labelledby="outro-title">
       <p class="outro__kicker mono">Em breve</p>
       <h2 class="outro__title" id="outro-title">
-        <span class="outline">HC</span>
+        <svg class="outro__symbol" role="img" aria-label="HC"><use href="#hc-symbol"/></svg>
         <span>Soluções<em>.</em></span>
       </h2>
       <p class="outro__clock mono" aria-live="off">
@@ -165,6 +237,7 @@
   <footer class="footer">
     <span>© <span data-year>2026</span> HC Soluções</span>
     <span>Desenvolvimento: KAIRÓS Produtora</span>
+    <a href="./marca.html">Identidade visual</a>
     <a href="#topo" class="mono">Voltar ao topo ↑</a>
   </footer>
 </body>

@@ -10,3 +10,4 @@ dist/
 .dev.vars*
 *.pem
 *.key
+tools/logo/fonts/
