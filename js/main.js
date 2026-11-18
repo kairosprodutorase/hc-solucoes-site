@@ -163,7 +163,7 @@
   /* ---------- Manifesto: palavras acendem com o scroll ---------- */
   const words = [];
   const manifesto = document.querySelector('[data-words]');
-  const KEYS = /^(clareza|ouvir|simplificar|funcione)$/i;
+  const KEYS = /^(ponte|fabricante|explicado|registrada)$/i;
   if (manifesto && !reduceMotion) {
     const text = manifesto.textContent.trim().replace(/\s+/g, ' ');
     manifesto.setAttribute('aria-label', text);
@@ -180,11 +180,11 @@
   }
 
   /* ---------- Revelação ao entrar na tela ---------- */
-  const revealables = document.querySelectorAll('.section__head, .step, .card, .outro > *, .climate__head');
+  const revealables = document.querySelectorAll('.section__head, .step, .card, .outro > *, .climate__head, .svc, .biz, .proof__list li, .rt, .types li, .guide, .faq');
   if (!reduceMotion && 'IntersectionObserver' in window) {
     revealables.forEach((el, i) => {
       el.setAttribute('data-reveal', '');
-      if (el.matches('.step, .card')) el.style.transitionDelay = `${(i % 4) * 90}ms`;
+      if (el.matches('.step, .card, .svc, .proof__list li, .types li')) el.style.transitionDelay = `${(i % 4) * 90}ms`;
     });
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
@@ -364,6 +364,82 @@
       }, { threshold: 0.5 });
       io.observe(flow);
     }
+  }
+
+  /* ---------- Abas genéricas (guia do PMOC) ---------- */
+  document.querySelectorAll('[data-tabs]').forEach((box) => {
+    const tabs = [...box.querySelectorAll('[role="tab"]')];
+    const show = (i, focus) => {
+      tabs.forEach((t, k) => {
+        const on = k === i;
+        t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+    box.querySelector('[role="tablist"]').addEventListener('keydown', (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); show((i + 1) % tabs.length, true); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); show((i - 1 + tabs.length) % tabs.length, true); }
+      if (e.key === 'Home') { e.preventDefault(); show(0, true); }
+      if (e.key === 'End') { e.preventDefault(); show(tabs.length - 1, true); }
+    });
+  });
+
+  /* ---------- Pedido de orçamento: monta a mensagem e abre o WhatsApp ---------- */
+  const WA = '5579996388938';
+  const quote = document.querySelector('[data-quote]');
+  if (quote) {
+    const err = quote.querySelector('[data-quote-error]');
+    const sel = quote.elements.servico;
+    document.querySelectorAll('[data-service]').forEach((a) => a.addEventListener('click', () => {
+      sel.value = a.dataset.service;
+      setTimeout(() => quote.elements.nome.focus({ preventScroll: true }), 700);
+    }));
+    quote.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = quote.elements;
+      const nome = f.nome.value.trim(), servico = f.servico.value;
+      f.nome.setAttribute('aria-invalid', String(!nome));
+      f.servico.setAttribute('aria-invalid', String(!servico));
+      if (!nome || !servico) { err.hidden = false; (nome ? f.servico : f.nome).focus(); return; }
+      err.hidden = true;
+      const linhas = [
+        `Olá, HC! Meu nome é ${nome}.`,
+        `Serviço: ${servico}`,
+        f.local.value.trim() && `Local: ${f.local.value.trim()}`,
+        f.fone.value.trim() && `Meu WhatsApp: ${f.fone.value.trim()}`,
+        'Pode me passar um orçamento?'
+      ].filter(Boolean);
+      const url = `https://wa.me/${WA}?text=${encodeURIComponent(linhas.join('\n'))}`;
+      const w = window.open(url, '_blank', 'noopener');
+      if (!w) window.location.href = url;
+    });
+  }
+
+  /* ---------- Horário de atendimento (Sergipe): aberto agora? ---------- */
+  const openLabels = document.querySelectorAll('[data-open-label]');
+  if (openLabels.length) {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Maceio', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+    const get = (t) => parts.find((p) => p.type === t).value;
+    const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
+    const h = Number(get('hour')) + Number(get('minute')) / 60;
+    const close = day >= 1 && day <= 5 ? 18 : day === 6 ? 12 : 0;
+    const isOpen = close > 0 && h >= 8 && h < close;
+    let next = '';
+    if (!isOpen) {
+      if (close > 0 && h < 8) next = 'Abre hoje às 8h.';
+      else if (day >= 1 && day <= 5) next = 'Abre amanhã às 8h.';
+      else next = 'Abre segunda às 8h.';
+    }
+    openLabels.forEach((el) => { el.textContent = isOpen ? 'Aberto agora' : 'Fechado agora'; });
+    const detail = document.querySelector('[data-open-detail]');
+    if (detail) detail.textContent = isOpen ? `Atendendo até as ${close}h. ` : `${next} Deixe sua mensagem no WhatsApp.`;
+    const card = document.querySelector('[data-open-card]');
+    if (card && isOpen) card.classList.add('is-open');
   }
 
   /* ---------- Relógio local e ano ---------- */
