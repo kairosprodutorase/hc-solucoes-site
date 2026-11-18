@@ -49,7 +49,7 @@ schemes = {
     "azul":        ("#ffffff", "#ffffff", "#cfe0ff"),
     "mono-branco": (NEVE, NEVE, NEVE),
     "mono-preto":  (TINTA, TINTA, TINTA),
-    "aparelho":    (TINTA, AZUL, CINZA_L),
+    "aparelho":    ("#111111", "#111111", "#6e6e6e"),   # preto e branco no corpo do aparelho
 }
 out = sys.argv[1]; os.makedirs(out, exist_ok=True)
 for name, (ink, ice, sub) in schemes.items():
