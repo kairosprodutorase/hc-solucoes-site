@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="./css/styles.css">
   <script>document.documentElement.classList.add('js');</script>
   <script src="./js/main.js" defer></script>
+  <script src="./js/air.js" defer></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -31,6 +32,7 @@
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <div class="progress" aria-hidden="true"><span></span></div>
   <div class="grain" aria-hidden="true"></div>
+  <canvas class="wind" data-wind aria-hidden="true"></canvas>
 
   <header class="nav">
     <a class="brand" href="#topo" aria-label="HC Soluções — início">
@@ -45,7 +47,13 @@
         <li><a href="./marca.html">Marca</a></li>
       </ul>
     </nav>
-    <span class="status-pill"><i aria-hidden="true"></i>Em preparação</span>
+    <div class="nav__end">
+      <button class="sound" type="button" data-sound aria-pressed="false" title="Som ambiente: vento e ar-condicionado" hidden>
+        <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <span data-sound-label>Ativar som</span>
+      </button>
+      <span class="status-pill"><i aria-hidden="true"></i>Em preparação</span>
+    </div>
   </header>
 
   <main id="conteudo">
