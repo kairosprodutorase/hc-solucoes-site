@@ -11,3 +11,4 @@ dist/
 *.pem
 *.key
 tools/logo/fonts/
+__pycache__/
