@@ -21,8 +21,10 @@ Direção de arte provisória, aguardando aprovação do cliente. O conceito tra
 
 - **Hero interativo**: ~2.800 partículas em campo de fluxo (caos) se organizam no símbolo HC conforme o scroll — as do floco acendem em azul-gelo; o cursor dispersa as partículas.
 - **Climatização**: um split com a marca HC; ao rolar, o ambiente esfria de 32° para 22°, a aleta abre, o ar sai e a luz passa de laranja (calor) para azul (conforto) e flocos de neve começam a cair.
+- **Entrada com som**: tela de entrada com o símbolo e o botão "Entrar com som" — o clique libera o áudio (navegadores bloqueiam som antes de uma interação) e o site já abre com o som ligado. Há a opção "Entrar sem som" e o botão no topo para desligar a qualquer momento.
+- **PMOC em destaque**: selo no hero, item no menu e seção própria com a base legal (Lei nº 13.589/2018), quem precisa, benefícios e um documento PMOC ilustrativo cujo checklist se preenche ao rolar, terminando com o carimbo "Em dia". O botão de contato aguarda os canais de atendimento.
 - **Sensação de ar**: correntes de vento quase transparentes atravessam a página e aceleram um pouco ao rolar (desativadas com movimento reduzido).
-- **Som ambiente (opcional)**: botão "Ativar som" no topo. Vento com rajadas naturais, fluxo do split que cresce conforme o aparelho liga na rolagem, zumbido grave do compressor e bipes ao ligar e ao chegar a 22°. Tudo sintetizado com Web Audio API — sem arquivos de áudio, sem direitos autorais, nada toca sem clique; pausa quando a aba fica oculta.
+- **Som ambiente**: liga na entrada; botão no topo para desligar/ligar. Vento com rajadas naturais, fluxo do split que cresce conforme o aparelho liga na rolagem, zumbido grave do compressor e bipes ao ligar e ao chegar a 22°. Tudo sintetizado com Web Audio API — sem arquivos de áudio, sem direitos autorais, nada toca sem clique; pausa quando a aba fica oculta.
 - **Manifesto**: as palavras acendem uma a uma com a rolagem; termos-chave em serifa itálica.
 - **Método**: quatro etapas (Escutar, Mapear, Resolver, Acompanhar) com preenchimento em cor-sinal no hover/foco.
 - **Bastidores**: painel honesto com o estado do projeto (estrutura, identidade, conteúdo, lançamento).

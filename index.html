@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070b12">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="HC Soluções — ar-condicionado e climatização. Do calor ao conforto. Novo site em preparação.">
+  <meta name="description" content="HC Soluções — ar-condicionado, climatização e PMOC. Do calor ao conforto. Novo site em preparação.">
   <title>HC Soluções — Ar-condicionado e climatização</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +29,19 @@
       </g>
     </symbol>
   </svg>
+  <div class="intro" data-intro role="dialog" aria-modal="true" aria-labelledby="intro-title" hidden>
+    <div class="intro__inner">
+      <svg class="intro__symbol" aria-hidden="true"><use href="#hc-symbol"/></svg>
+      <p class="intro__title" id="intro-title">HC <em>Soluções</em></p>
+      <p class="intro__sub mono">Ar-condicionado · Climatização · PMOC</p>
+      <button class="intro__enter" type="button" data-intro-enter>
+        <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        Entrar <span class="intro__hint">com som</span>
+      </button>
+      <button class="intro__mute mono" type="button" data-intro-mute>Entrar sem som</button>
+      <p class="intro__note mono">Experiência com som ambiente · use fones para sentir o ar</p>
+    </div>
+  </div>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
   <div class="progress" aria-hidden="true"><span></span></div>
   <div class="grain" aria-hidden="true"></div>
@@ -41,6 +54,7 @@
     <nav aria-label="Seções">
       <ul>
         <li><a href="#clima">Climatização</a></li>
+        <li><a href="#pmoc" class="nav__pmoc">PMOC</a></li>
         <li><a href="#manifesto">Manifesto</a></li>
         <li><a href="#metodo">Método</a></li>
         <li><a href="#bastidores">Bastidores</a></li>
@@ -71,7 +85,10 @@
           <span class="line"><span>ao <em>claro.</em></span></span>
         </h1>
         <div class="hero__foot">
-          <p>Ar-condicionado e climatização. Toda solução começa como ruído — o trabalho é encontrar a forma que já estava lá.</p>
+          <div class="hero__copy">
+            <p>Ar-condicionado e climatização. Toda solução começa como ruído — o trabalho é encontrar a forma que já estava lá.</p>
+            <a class="pmoc-badge" href="#pmoc"><b class="mono">PMOC</b><span>Plano de manutenção obrigatório por lei</span><i aria-hidden="true">→</i></a>
+          </div>
           <div class="hero__meter mono" aria-hidden="true">
             <span>caos</span><span class="meter"><i data-hero-meter></i></span><span>ordem</span>
           </div>
@@ -142,10 +159,66 @@
       </div>
     </section>
 
-    <!-- 02 · MANIFESTO -->
+    <!-- 02 · PMOC: destaque -->
+    <section class="pmoc" id="pmoc" aria-labelledby="pmoc-title">
+      <div class="pmoc__glow" aria-hidden="true"></div>
+      <header class="pmoc__head">
+        <span class="mono idx">02 · Destaque</span>
+        <h2 id="pmoc-title" class="pmoc__title" aria-label="PMOC">
+          <span>PM</span><span class="pmoc__o" aria-hidden="true"><svg viewBox="-34 -34 68 68"><circle r="27" fill="none" stroke="currentColor" stroke-width="7"/><g><use href="#snowflake" x="-17" y="-17" width="34" height="34"/><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="18s" repeatCount="indefinite"/></g></svg></span><span>C</span>
+        </h2>
+        <p class="pmoc__name">Plano de Manutenção, <em>Operação e Controle.</em></p>
+      </header>
+
+      <div class="pmoc__grid">
+        <div class="pmoc__info">
+          <p class="pmoc__law"><span class="mono">Lei nº 13.589/2018</span></p>
+          <p class="pmoc__lede">Todo edifício de uso público e coletivo com ar climatizado artificialmente precisa ter um PMOC. Mais do que uma exigência legal, é o que garante ar limpo para as pessoas, equipamentos eficientes e tranquilidade na fiscalização.</p>
+          <p class="mono pmoc__label">Quem precisa</p>
+          <ul class="pmoc__chips">
+            <li>Escritórios</li><li>Clínicas e consultórios</li><li>Escolas</li><li>Lojas</li>
+            <li>Academias</li><li>Restaurantes</li><li>Hotéis</li><li>Auditórios e templos</li>
+          </ul>
+          <ul class="pmoc__why">
+            <li><b>Saúde</b><span>Ar interior com menos poeira, fungos e bactérias.</span></li>
+            <li><b>Conformidade</b><span>Documentação organizada para a vigilância sanitária.</span></li>
+            <li><b>Economia</b><span>Equipamento limpo consome menos e dura mais.</span></li>
+          </ul>
+          <p class="pmoc__cta"><span class="pmoc__cta-btn">Quero o PMOC da minha empresa</span><small class="mono">Canais de atendimento em breve</small></p>
+        </div>
+
+        <figure class="pmoc__doc" data-pmoc-doc>
+          <div class="doc">
+            <div class="doc__top">
+              <svg class="doc__logo" aria-hidden="true"><use href="#hc-symbol"/></svg>
+              <span class="mono">PMOC · Nº 0001</span>
+            </div>
+            <p class="doc__title">Plano de Manutenção, Operação e Controle</p>
+            <dl class="doc__fields">
+              <div><dt class="mono">Edificação</dt><dd>__________________</dd></div>
+              <div><dt class="mono">Responsável técnico</dt><dd>__________________</dd></div>
+            </dl>
+            <ol class="doc__list">
+              <li>Levantamento dos equipamentos e ambientes</li>
+              <li>Cronograma de manutenção preventiva</li>
+              <li>Limpeza de filtros, serpentinas e bandejas</li>
+              <li>Registro de cada atividade executada</li>
+              <li>Monitoramento da qualidade do ar interior</li>
+              <li>Responsável técnico habilitado</li>
+            </ol>
+            <div class="doc__stamp" aria-hidden="true">
+              <svg viewBox="-50 -50 100 100"><circle r="44" fill="none" stroke="currentColor" stroke-width="2"/><circle r="37" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/><use href="#snowflake" x="-16" y="-24" width="32" height="32"/><text y="22" text-anchor="middle">EM DIA</text></svg>
+            </div>
+          </div>
+          <figcaption class="mono">Modelo ilustrativo</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 03 · MANIFESTO -->
     <section class="manifesto section" id="manifesto" aria-labelledby="manifesto-title">
       <header class="section__head">
-        <span class="mono idx">02</span>
+        <span class="mono idx">03</span>
         <h2 id="manifesto-title" class="mono label">Manifesto</h2>
       </header>
       <p class="manifesto__text" data-words>
@@ -163,10 +236,10 @@
       </div>
     </div>
 
-    <!-- 03 · MÉTODO -->
+    <!-- 04 · MÉTODO -->
     <section class="method section" id="metodo" aria-labelledby="metodo-title">
       <header class="section__head">
-        <span class="mono idx">03</span>
+        <span class="mono idx">04</span>
         <h2 id="metodo-title" class="mono label">Método</h2>
         <p class="section__lede">Quatro movimentos para transformar uma questão difícil em uma resposta simples.</p>
       </header>
@@ -198,10 +271,10 @@
       </ol>
     </section>
 
-    <!-- 04 · BASTIDORES: status honesto do projeto -->
+    <!-- 05 · BASTIDORES: status honesto do projeto -->
     <section class="backstage section" id="bastidores" aria-labelledby="bastidores-title">
       <header class="section__head">
-        <span class="mono idx">04</span>
+        <span class="mono idx">05</span>
         <h2 id="bastidores-title" class="mono label">Bastidores</h2>
         <p class="section__lede">O novo site está sendo construído com o mesmo método. Acompanhe o estado de cada etapa.</p>
       </header>
@@ -233,7 +306,7 @@
       </ul>
     </section>
 
-    <!-- 05 · ENCERRAMENTO -->
+    <!-- 06 · ENCERRAMENTO -->
     <section class="outro" aria-labelledby="outro-title">
       <p class="outro__kicker mono">Em breve</p>
       <h2 class="outro__title" id="outro-title">

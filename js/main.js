@@ -278,6 +278,30 @@
     });
   }
 
+  /* ---------- PMOC: floco do "O" parado com movimento reduzido ---------- */
+  if (reduceMotion) document.querySelectorAll('.pmoc__o svg').forEach((svg) => svg.pauseAnimations && svg.pauseAnimations());
+
+  /* ---------- PMOC: checklist preenchido item a item ---------- */
+  const doc = document.querySelector('[data-pmoc-doc]');
+  if (doc) {
+    const items = [...doc.querySelectorAll('.doc__list li')];
+    const finish = () => { doc.classList.add('is-complete'); window.dispatchEvent(new Event('hc:complete')); };
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      items.forEach((li) => li.classList.add('is-done')); doc.classList.add('is-complete');
+    } else {
+      const io = new IntersectionObserver(([en]) => {
+        if (!en.isIntersecting) return;
+        io.disconnect();
+        items.forEach((li, i) => setTimeout(() => {
+          li.classList.add('is-done');
+          window.dispatchEvent(new Event('hc:check'));
+          if (i === items.length - 1) setTimeout(finish, 450);
+        }, 300 + i * 380));
+      }, { threshold: 0.45 });
+      io.observe(doc);
+    }
+  }
+
   /* ---------- Relógio local e ano ---------- */
   const clock = document.querySelector('[data-clock]');
   if (clock) {

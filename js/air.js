@@ -98,7 +98,12 @@
   /* ---------------- Som ---------------- */
   const btn = document.querySelector('[data-sound]');
   const AC = window.AudioContext || window.webkitAudioContext;
-  if (!btn || !AC) { if (btn) btn.hidden = true; return; }
+  if (!btn || !AC) {
+    if (btn) btn.hidden = true;
+    const intro = document.querySelector('[data-intro]');
+    if (intro) intro.remove();
+    return;
+  }
 
   let audio = null, on = false, raf = 0, wasOn = false, reached = false, gustTimer = 0;
 
@@ -217,10 +222,46 @@
     }
   };
 
+  // Sons curtos para o checklist do PMOC
+  const click = (freq = 1320, vol = 0.035, len = 0.06) => {
+    if (!audio || !on) return;
+    const { ctx, master } = audio;
+    const t = ctx.currentTime + 0.01;
+    const o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.setValueAtTime(freq, t);
+    o.frequency.exponentialRampToValueAtTime(freq * 0.6, t + len);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+    o.connect(g).connect(master); o.start(t); o.stop(t + len + 0.02);
+  };
+  window.addEventListener('hc:check', () => click());
+  window.addEventListener('hc:complete', () => { click(880, 0.05, 0.18); setTimeout(() => click(1760, 0.04, 0.22), 120); });
+
   btn.hidden = false;
   btn.addEventListener('click', () => setOn(!on));
   document.addEventListener('visibilitychange', () => {
     if (!audio || !on) return;
     if (document.hidden) audio.ctx.suspend(); else audio.ctx.resume();
   });
+
+  /* ---------- Tela de entrada: o clique em "Entrar" libera o som ---------- */
+  const intro = document.querySelector('[data-intro]');
+  if (intro) {
+    const root = document.documentElement;
+    const enter = intro.querySelector('[data-intro-enter]');
+    const mute = intro.querySelector('[data-intro-mute]');
+    const close = (withSound) => {
+      if (withSound) setOn(true);
+      intro.classList.add('is-leaving');
+      root.classList.remove('intro-open');
+      window.dispatchEvent(new Event('hc:entered'));
+      setTimeout(() => { intro.hidden = true; }, 1000);
+    };
+    intro.hidden = false;
+    root.classList.add('intro-open');
+    enter.focus({ preventScroll: true });
+    enter.addEventListener('click', () => close(true));
+    mute.addEventListener('click', () => close(false));
+    intro.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(false); });
+  }
 })();
