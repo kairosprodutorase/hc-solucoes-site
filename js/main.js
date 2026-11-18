@@ -281,24 +281,88 @@
   /* ---------- PMOC: floco do "O" parado com movimento reduzido ---------- */
   if (reduceMotion) document.querySelectorAll('.pmoc__o svg').forEach((svg) => svg.pauseAnimations && svg.pauseAnimations());
 
-  /* ---------- PMOC: checklist preenchido item a item ---------- */
-  const doc = document.querySelector('[data-pmoc-doc]');
-  if (doc) {
+  /* ---------- PMOC · passo 1: verificador "precisa de PMOC?" ---------- */
+  const check = document.querySelector('[data-check]');
+  if (check) {
+    const box = check.querySelector('[data-check-result]');
+    const verdict = check.querySelector('[data-check-verdict]');
+    const detail = check.querySelector('[data-check-detail]');
+    check.addEventListener('change', () => {
+      const uso = check.querySelector('input[name="uso"]:checked');
+      const clima = check.querySelector('input[name="clima"]:checked');
+      if (!uso || !clima) { verdict.textContent = 'Falta uma resposta.'; detail.textContent = 'Responda as duas perguntas para ver o resultado.'; return; }
+      const yes = uso.value === 'sim' && clima.value === 'sim';
+      box.dataset.state = yes ? 'yes' : 'no';
+      if (yes) {
+        verdict.textContent = 'Sim, seu ambiente precisa de PMOC.';
+        detail.textContent = 'A Lei nº 13.589/2018 exige o plano em edifícios de uso público e coletivo com ar climatizado.';
+      } else if (clima.value === 'nao') {
+        verdict.textContent = 'Sem climatização, o PMOC não se aplica.';
+        detail.textContent = 'Se instalar ar-condicionado em um espaço de uso coletivo, o plano passa a ser obrigatório.';
+      } else {
+        verdict.textContent = 'Pela lei, o PMOC não é obrigatório aqui.';
+        detail.textContent = 'Mesmo assim, manutenção preventiva mantém o ar limpo e a conta de energia menor.';
+      }
+      box.classList.remove('is-pop'); void box.offsetWidth; box.classList.add('is-pop');
+      window.dispatchEvent(new Event(yes ? 'hc:complete' : 'hc:check'));
+    });
+  }
+
+  /* ---------- PMOC · passo 3: etapas ligadas ao documento ---------- */
+  const flow = document.querySelector('[data-flow]');
+  if (flow) {
+    const tabs = [...flow.querySelectorAll('[role="tab"]')];
+    const doc = flow.querySelector('[data-pmoc-doc]');
     const items = [...doc.querySelectorAll('.doc__list li')];
-    const finish = () => { doc.classList.add('is-complete'); window.dispatchEvent(new Event('hc:complete')); };
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      items.forEach((li) => li.classList.add('is-done')); doc.classList.add('is-complete');
-    } else {
+    const bar = doc.querySelector('[data-doc-bar]');
+    const status = doc.querySelector('[data-doc-status]');
+    let current = 0, autoplay = null, touched = false;
+
+    const select = (step, { focus = false, sound = true } = {}) => {
+      if (step === current) return;
+      const before = items.filter((li) => li.classList.contains('is-done')).length;
+      current = step;
+      tabs.forEach((t, i) => {
+        const on = i + 1 === step;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        t.classList.toggle('is-past', i + 1 < step);
+        if (on) { doc.setAttribute('aria-labelledby', t.id); if (focus) t.focus(); }
+      });
+      items.forEach((li) => {
+        const at = Number(li.dataset.at);
+        li.classList.toggle('is-done', at <= step);
+        li.classList.toggle('is-now', at === step);
+      });
+      bar.parentElement.style.setProperty('--p', String(step / tabs.length));
+      status.textContent = `Etapa ${step} de ${tabs.length} · ${tabs[step - 1].querySelector('b').textContent}`;
+      const complete = step === tabs.length;
+      doc.classList.toggle('is-complete', complete);
+      const after = items.filter((li) => li.classList.contains('is-done')).length;
+      if (sound && after > before) window.dispatchEvent(new Event(complete ? 'hc:complete' : 'hc:check'));
+    };
+
+    const stopAuto = () => { touched = true; clearInterval(autoplay); };
+    tabs.forEach((t, i) => t.addEventListener('click', () => { stopAuto(); select(i + 1); }));
+    flow.querySelector('[role="tablist"]').addEventListener('keydown', (e) => {
+      const keys = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+      if (e.key in keys) { e.preventDefault(); stopAuto(); select(((current - 1 + keys[e.key] + tabs.length) % tabs.length) + 1, { focus: true }); }
+      if (e.key === 'Home') { e.preventDefault(); stopAuto(); select(1, { focus: true }); }
+      if (e.key === 'End') { e.preventDefault(); stopAuto(); select(tabs.length, { focus: true }); }
+    });
+
+    select(1, { sound: false });
+    // Ao aparecer na tela, as etapas avançam sozinhas uma vez (até a pessoa interagir)
+    if (!reduceMotion && 'IntersectionObserver' in window) {
       const io = new IntersectionObserver(([en]) => {
-        if (!en.isIntersecting) return;
+        if (!en.isIntersecting || touched) return;
         io.disconnect();
-        items.forEach((li, i) => setTimeout(() => {
-          li.classList.add('is-done');
-          window.dispatchEvent(new Event('hc:check'));
-          if (i === items.length - 1) setTimeout(finish, 450);
-        }, 300 + i * 380));
-      }, { threshold: 0.45 });
-      io.observe(doc);
+        autoplay = setInterval(() => {
+          if (touched || current >= tabs.length) return clearInterval(autoplay);
+          select(current + 1);
+        }, 1800);
+      }, { threshold: 0.5 });
+      io.observe(flow);
     }
   }
 

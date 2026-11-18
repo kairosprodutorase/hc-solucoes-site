@@ -166,56 +166,113 @@
     <!-- 02 · PMOC: destaque -->
     <section class="pmoc" id="pmoc" aria-labelledby="pmoc-title">
       <div class="pmoc__glow" aria-hidden="true"></div>
+
       <header class="pmoc__head">
-        <span class="mono idx">02 · Destaque</span>
-        <h2 id="pmoc-title" class="pmoc__title" aria-label="PMOC">
-          <span>PM</span><span class="pmoc__o" aria-hidden="true"><svg viewBox="-34 -34 68 68"><circle r="27" fill="none" stroke="currentColor" stroke-width="7"/><g><use href="#snowflake" x="-17" y="-17" width="34" height="34"/><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="18s" repeatCount="indefinite"/></g></svg></span><span>C</span>
+        <div class="pmoc__eyebrow">
+          <span class="mono pmoc__tag">02 · Destaque</span>
+          <span class="mono pmoc__law">Lei nº 13.589/2018</span>
+        </div>
+        <h2 id="pmoc-title" class="pmoc__title">
+          <span class="pmoc__word" aria-label="PMOC"><span aria-hidden="true">PM</span><span class="pmoc__o" aria-hidden="true"><svg viewBox="-34 -34 68 68"><circle r="27" fill="none" stroke="currentColor" stroke-width="7"/><g><use href="#snowflake" x="-17" y="-17" width="34" height="34"/><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="18s" repeatCount="indefinite"/></g></svg></span><span aria-hidden="true">C</span></span>
+          <span class="pmoc__claim">O ar do seu ambiente <em>em dia com a lei.</em></span>
         </h2>
-        <p class="pmoc__name">Plano de Manutenção, <em>Operação e Controle.</em></p>
+        <p class="pmoc__lede">O Plano de Manutenção, Operação e Controle é obrigatório para todo edifício de uso público e coletivo com ar climatizado. Ele garante ar limpo para as pessoas, equipamentos eficientes e tranquilidade na fiscalização.</p>
       </header>
 
-      <div class="pmoc__grid">
-        <div class="pmoc__info">
-          <p class="pmoc__law"><span class="mono">Lei nº 13.589/2018</span></p>
-          <p class="pmoc__lede">Todo edifício de uso público e coletivo com ar climatizado artificialmente precisa ter um PMOC. Mais do que uma exigência legal, é o que garante ar limpo para as pessoas, equipamentos eficientes e tranquilidade na fiscalização.</p>
-          <p class="mono pmoc__label">Quem precisa</p>
-          <ul class="pmoc__chips">
-            <li>Escritórios</li><li>Clínicas e consultórios</li><li>Escolas</li><li>Lojas</li>
-            <li>Academias</li><li>Restaurantes</li><li>Hotéis</li><li>Auditórios e templos</li>
+      <!-- Passo 1 e 2: precisa? / o que garante -->
+      <div class="pmoc__row">
+        <form class="check" data-check aria-labelledby="check-title" onsubmit="return false">
+          <p class="mono check__step">Passo 1 · 30 segundos</p>
+          <h3 id="check-title" class="check__title">Seu ambiente precisa de PMOC?</h3>
+          <fieldset class="check__q">
+            <legend>O espaço recebe público ou é de uso coletivo?</legend>
+            <p class="check__hint">Escritórios, clínicas, escolas, lojas, academias, restaurantes, hotéis, auditórios…</p>
+            <div class="check__opts">
+              <label><input type="radio" name="uso" value="sim"><span>Sim</span></label>
+              <label><input type="radio" name="uso" value="nao"><span>Não, é residencial</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="check__q">
+            <legend>Tem ar-condicionado ou climatização artificial?</legend>
+            <div class="check__opts">
+              <label><input type="radio" name="clima" value="sim"><span>Sim</span></label>
+              <label><input type="radio" name="clima" value="nao"><span>Não</span></label>
+            </div>
+          </fieldset>
+          <div class="check__result" data-check-result aria-live="polite" data-state="idle">
+            <p class="check__verdict" data-check-verdict>Responda as duas perguntas.</p>
+            <p class="check__detail" data-check-detail>O resultado aparece aqui, na hora.</p>
+          </div>
+        </form>
+
+        <div class="gains">
+          <p class="mono check__step">Passo 2 · O que o PMOC garante</p>
+          <ul class="gains__list">
+            <li>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 11h15a4 4 0 1 0-4-4M4 17h21a4 4 0 1 1-4 4M4 23h9"/></svg>
+              <div><b>Ar mais saudável</b><span>Menos poeira, fungos e bactérias circulando entre as pessoas.</span></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7z"/><path d="M11 16l4 4 7-8"/></svg>
+              <div><b>Conformidade</b><span>Documentação organizada para a vigilância sanitária.</span></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M18 3L7 18h8l-2 11 12-16h-8z"/></svg>
+              <div><b>Economia</b><span>Equipamento limpo consome menos energia e dura mais.</span></div>
+            </li>
           </ul>
-          <ul class="pmoc__why">
-            <li><b>Saúde</b><span>Ar interior com menos poeira, fungos e bactérias.</span></li>
-            <li><b>Conformidade</b><span>Documentação organizada para a vigilância sanitária.</span></li>
-            <li><b>Economia</b><span>Equipamento limpo consome menos e dura mais.</span></li>
-          </ul>
-          <p class="pmoc__cta"><span class="pmoc__cta-btn">Quero o PMOC da minha empresa</span><small class="mono">Canais de atendimento em breve</small></p>
+        </div>
+      </div>
+
+      <!-- Passo 3: como funciona (etapas ligadas ao documento) -->
+      <div class="flow" data-flow>
+        <div class="flow__steps">
+          <p class="mono check__step">Passo 3 · Como funciona</p>
+          <h3 class="flow__title">Do primeiro contato ao <em>carimbo “em dia”.</em></h3>
+          <div class="flow__tabs" role="tablist" aria-label="Etapas do PMOC" aria-orientation="vertical">
+            <button class="flow__tab" role="tab" id="flow-t1" aria-controls="flow-p" aria-selected="true" tabindex="0" data-step="1">
+              <span class="mono">01</span><b>Vistoria</b><small>Levantamos equipamentos, ambientes e uso de cada espaço.</small>
+            </button>
+            <button class="flow__tab" role="tab" id="flow-t2" aria-controls="flow-p" aria-selected="false" tabindex="-1" data-step="2">
+              <span class="mono">02</span><b>Plano</b><small>Cronograma de manutenção com responsável técnico habilitado.</small>
+            </button>
+            <button class="flow__tab" role="tab" id="flow-t3" aria-controls="flow-p" aria-selected="false" tabindex="-1" data-step="3">
+              <span class="mono">03</span><b>Execução</b><small>Limpeza, higienização e controle da qualidade do ar.</small>
+            </button>
+            <button class="flow__tab" role="tab" id="flow-t4" aria-controls="flow-p" aria-selected="false" tabindex="-1" data-step="4">
+              <span class="mono">04</span><b>Registro</b><small>Cada atividade documentada, pronta para a fiscalização.</small>
+            </button>
+          </div>
         </div>
 
-        <figure class="pmoc__doc" data-pmoc-doc>
+        <figure class="pmoc__doc" id="flow-p" role="tabpanel" aria-labelledby="flow-t1" data-pmoc-doc>
           <div class="doc">
             <div class="doc__top">
               <svg class="doc__logo" aria-hidden="true"><use href="#hc-symbol"/></svg>
               <span class="mono">PMOC · Nº 0001</span>
             </div>
             <p class="doc__title">Plano de Manutenção, Operação e Controle</p>
-            <dl class="doc__fields">
-              <div><dt class="mono">Edificação</dt><dd>__________________</dd></div>
-              <div><dt class="mono">Responsável técnico</dt><dd>__________________</dd></div>
-            </dl>
+            <div class="doc__progress" aria-hidden="true"><i data-doc-bar></i></div>
+            <p class="mono doc__status" data-doc-status>Etapa 1 de 4 · Vistoria</p>
             <ol class="doc__list">
-              <li>Levantamento dos equipamentos e ambientes</li>
-              <li>Cronograma de manutenção preventiva</li>
-              <li>Limpeza de filtros, serpentinas e bandejas</li>
-              <li>Registro de cada atividade executada</li>
-              <li>Monitoramento da qualidade do ar interior</li>
-              <li>Responsável técnico habilitado</li>
+              <li data-at="1">Levantamento dos equipamentos e ambientes</li>
+              <li data-at="2">Cronograma de manutenção preventiva</li>
+              <li data-at="2">Responsável técnico habilitado</li>
+              <li data-at="3">Limpeza de filtros, serpentinas e bandejas</li>
+              <li data-at="3">Monitoramento da qualidade do ar interior</li>
+              <li data-at="4">Registro de cada atividade executada</li>
             </ol>
             <div class="doc__stamp" aria-hidden="true">
               <svg viewBox="-50 -50 100 100"><circle r="44" fill="none" stroke="currentColor" stroke-width="2"/><circle r="37" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/><use href="#snowflake" x="-16" y="-24" width="32" height="32"/><text y="22" text-anchor="middle">EM DIA</text></svg>
             </div>
           </div>
-          <figcaption class="mono">Modelo ilustrativo</figcaption>
+          <figcaption class="mono">Modelo ilustrativo · navegue pelas etapas</figcaption>
         </figure>
+      </div>
+
+      <div class="pmoc__cta">
+        <p><b>Quer o PMOC do seu espaço?</b> <span>Atendimento e orçamento pela HC Soluções.</span></p>
+        <span class="pmoc__soon mono"><i aria-hidden="true"></i>Canais de atendimento em breve</span>
       </div>
     </section>
 
