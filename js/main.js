@@ -17,13 +17,13 @@
   if (canvas && canvas.getContext) {
     const ctx = canvas.getContext('2d');
     const css = getComputedStyle(document.documentElement);
-    const INK = css.getPropertyValue('--ink').trim() || '#f2efe8';
-    const ACCENT = css.getPropertyValue('--accent').trim() || '#d2ff3c';
+    const INK = css.getPropertyValue('--ink').trim() || '#eef4fb';
+    const ACCENT = css.getPropertyValue('--accent').trim() || '#7cc8ff';
     let W = 0, H = 0, dpr = 1, particles = [], visible = true, raf = 0;
     const pointer = { x: -9999, y: -9999, active: false };
 
     // O símbolo HC é desenhado fora da tela e amostrado: cada pixel vira um alvo.
-    // Pixels do mostrador (lima) viram partículas na cor-sinal.
+    // Pixels do floco (azul-gelo) viram partículas na cor de destaque.
     const symbolImg = new Image();
     const symbolReady = new Promise((res) => {
       symbolImg.onload = res; symbolImg.onerror = res;
@@ -35,8 +35,8 @@
       off.width = W; off.height = H;
       const o = off.getContext('2d', { willReadFrequently: true });
       const mobile = W < 720;
-      const h = Math.min(H * (mobile ? 0.34 : 0.56), (W * (mobile ? 0.7 : 0.52)) * 120 / 152);
-      const w = h * 152 / 120;
+      const h = Math.min(H * (mobile ? 0.34 : 0.56), (W * (mobile ? 0.7 : 0.52)) * 120 / 172);
+      const w = h * 172 / 120;
       const cx = W / 2, cy = H * 0.53;
       if (symbolImg.naturalWidth || symbolImg.width) {
         o.drawImage(symbolImg, cx - w / 2, cy - h / 2, w, h);
@@ -51,10 +51,18 @@
       for (let i = 3; i < data.length; i += 16) if (data[i] > 128) area += 4;
       const step = Math.max(3, Math.round(Math.sqrt(area / max)));
       const pts = [];
+      const isFlake = (k) => data[k + 3] > 128 && data[k] < 190; // azul-gelo
       for (let y = 0; y < H; y += step) {
         for (let x = 0; x < W; x += step) {
           const k = (y * W + x) * 4;
-          if (data[k + 3] > 128) pts.push([x, y, data[k + 2] < 150]);
+          if (data[k + 3] > 128 && !isFlake(k)) pts.push([x, y, false]);
+        }
+      }
+      // o floco tem traços finos: amostragem mais densa para ele brilhar
+      const fine = Math.max(2, Math.round(step * 0.55));
+      for (let y = 0; y < H; y += fine) {
+        for (let x = 0; x < W; x += fine) {
+          if (isFlake((y * W + x) * 4)) pts.push([x, y, true]);
         }
       }
       return pts;
@@ -73,7 +81,7 @@
         ox: 0, oy: 0, vx: 0, vy: 0,
         delay: Math.random() * 0.35,
         speed: 0.4 + Math.random() * 1.1,
-        size: Math.random() < 0.12 ? 2.2 : 1.4,
+        size: gauge ? 2.2 : (Math.random() < 0.12 ? 2.2 : 1.4),
         gauge,
         accent: gauge || Math.random() < 0.05
       }));
@@ -110,7 +118,7 @@
         const px = q.x + (q.tx - q.x) * e + q.ox;
         const py = q.y + (q.ty - q.y) * e + q.oy;
         q.px = px; q.py = py;
-        ctx.globalAlpha = reduceMotion ? 0.3 : 0.35 + e * 0.6;
+        ctx.globalAlpha = reduceMotion ? 0.3 : (q.gauge ? 0.35 + e * 0.65 : 0.3 + e * 0.55);
         ctx.fillStyle = (q.gauge ? e > 0.5 : q.accent) ? ACCENT : INK;
         ctx.fillRect(px, py, q.size, q.size);
       }
@@ -193,6 +201,21 @@
   const tempEls = climate ? climate.querySelectorAll('[data-temp], [data-temp-display]') : [];
   const climateState = climate && climate.querySelector('[data-climate-state]');
   let lastTemp = null;
+
+  // Flocos de neve que caem quando o ambiente chega ao conforto
+  const snow = document.querySelector('[data-snow]');
+  if (snow && !reduceMotion) {
+    const n = window.innerWidth < 720 ? 14 : 26;
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement('span');
+      const r = Math.random();
+      el.style.cssText = `--x:${(Math.random() * 100).toFixed(1)}%;--s:${(8 + r * 16).toFixed(0)}px;` +
+        `--d:${(7 + (1 - r) * 9).toFixed(1)}s;--delay:${(-Math.random() * 14).toFixed(1)}s;--drift:${(Math.random() * 120 - 60).toFixed(0)}px;` +
+        `opacity:${(0.3 + r * 0.6).toFixed(2)}`;
+      el.innerHTML = '<svg><use href="#snowflake"/></svg>';
+      snow.appendChild(el);
+    }
+  }
 
   /* ---------- Scroll: progresso global, hero, clima e manifesto ---------- */
   const bar = document.querySelector('.progress');

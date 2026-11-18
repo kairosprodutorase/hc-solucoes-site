@@ -1,27 +1,40 @@
 import math
-W, H = 152, 120
-def pt(cx, cy, R, deg):
-    r = math.radians(deg); return cx + R*math.cos(r), cy + R*math.sin(r)
-def symbol(ink="#f2efe8", air="#d2ff3c", cap="butt", gauge=62, open_=44):
-    """Símbolo HC: H com três aletas + C-mostrador. Grid 152x120."""
+W, H = 172, 120
+def _line(x1, y1, x2, y2, w, color, cap="butt"):
+    return f'<path d="M{x1:.2f} {y1:.2f}L{x2:.2f} {y2:.2f}" stroke="{color}" stroke-width="{w}" stroke-linecap="{cap}" fill="none"/>'
+def flake(cx, cy, L, w, color, barb=0.58, blen=9, bw=None, cap="butt", hub=0):
+    bw = bw or w
+    out = []
+    for k in range(6):
+        a = math.radians(k * 60)
+        dx, dy = math.cos(a), math.sin(a)
+        out.append(_line(cx, cy, cx + dx*L, cy + dy*L, w, color, cap))
+        if k % 3 != 0 or True:
+            px, py = cx + dx*L*barb, cy + dy*L*barb
+            for s in (-1, 1):
+                b = a + s*math.radians(52)
+                out.append(_line(px, py, px + math.cos(b)*blen, py + math.sin(b)*blen, bw, color, cap))
+    if hub:
+        pts = " ".join(f"{cx+hub*math.cos(math.radians(30+60*i)):.2f},{cy+hub*math.sin(math.radians(30+60*i)):.2f}" for i in range(6))
+        out.append(f'<polygon points="{pts}" fill="{color}"/>')
+    return "".join(out)
+def symbol(ink="#eef4fb", ice="#7cc8ff", barbs_on_h=False):
+    """HC com floco de neve como barra do H. Grid 172x120."""
     s = 18
-    parts = [f'<rect x="0" y="14" width="{s}" height="92" fill="{ink}"/>',
-             f'<rect x="46" y="14" width="{s}" height="92" fill="{ink}"/>']
-    for yy in (45, 57, 69):
-        parts.append(f'<rect x="{s}" y="{yy}" width="28" height="6" fill="{ink}"/>')
-    cx, cy, R = 64 + 8 + 46, 60, 37
-    a0, a_end = -open_, open_            # terminais
-    split = a_end + gauge                 # início do trecho verde
-    p0 = pt(cx, cy, R, a0); p1 = pt(cx, cy, R, split + 3)
-    q0 = pt(cx, cy, R, split - 1); q1 = pt(cx, cy, R, a_end)
-    parts.append(f'<path d="M{p0[0]:.2f} {p0[1]:.2f}A{R} {R} 0 1 0 {p1[0]:.2f} {p1[1]:.2f}" fill="none" stroke="{ink}" stroke-width="{s}" stroke-linecap="{cap}"/>')
-    parts.append(f'<path d="M{q0[0]:.2f} {q0[1]:.2f}A{R} {R} 0 0 0 {q1[0]:.2f} {q1[1]:.2f}" fill="none" stroke="{air}" stroke-width="{s}" stroke-linecap="{cap}"/>')
-    return "".join(parts)
-if __name__ == "__main__":
+    p = [flake(42, 60, 31, 6, ice, barb=0.56, blen=10, bw=4.5),
+         f'<rect x="0" y="14" width="{s}" height="92" fill="{ink}"/>',
+         f'<rect x="66" y="14" width="{s}" height="92" fill="{ink}"/>']
+    cx, cy, R = 84 + 8 + 46, 60, 37
+    a = math.radians(44)
+    sx, sy = cx + R*math.cos(a), cy - R*math.sin(a)
+    ex, ey = sx, cy + R*math.sin(a)
+    p.append(f'<path d="M{sx:.2f} {sy:.2f}A{R} {R} 0 1 0 {ex:.2f} {ey:.2f}" fill="none" stroke="{ink}" stroke-width="{s}"/>')
+    return "".join(p)
+if __name__ == "__main__":  # prévia rápida
     import sys
     out = sys.argv[1]; svgs = []
-    for bg, ink, air in [("#0e0e0c", "#f2efe8", "#d2ff3c"), ("#f2efe8", "#0e0e0c", "#0e0e0c"), ("#d2ff3c", "#0e0e0c", "#f2efe8")]:
-        svgs.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -40 232 200" width="348" height="300"><rect x="-40" y="-40" width="232" height="200" fill="{bg}"/>{symbol(ink, air)}</svg>')
-    for s_ in [24, 48]:
-        svgs.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -26 172 172" width="{s_}" height="{s_}" style="background:#0e0e0c;margin:8px">{symbol()}</svg>')
-    open(f"{out}/sym.html","w").write('<body style="margin:0;display:flex;align-items:center;background:#222">'+"".join(svgs))
+    for bg, ink, ice in [("#070b12", "#eef4fb", "#7cc8ff"), ("#f4f8fc", "#0a1424", "#1f5fff"), ("#1f5fff", "#ffffff", "#ffffff"), ("#0b1e3a","#eef4fb","#7cc8ff")]:
+        svgs.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 -30 232 180" width="290" height="225"><rect x="-30" y="-30" width="232" height="180" fill="{bg}"/>{symbol(ink, ice)}</svg>')
+    for s_ in [20, 32, 64]:
+        svgs.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -38 196 196" width="{s_}" height="{s_}" style="background:#070b12;margin:6px">{symbol()}</svg>')
+    open(f"{out}/sym2.html","w").write('<body style="margin:0;display:flex;flex-wrap:wrap;align-items:center;background:#333">'+"".join(svgs))

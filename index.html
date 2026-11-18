@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0e0e0c">
+  <meta name="theme-color" content="#070b12">
   <meta name="robots" content="noindex,nofollow">
   <meta name="description" content="HC Soluções — ar-condicionado e climatização. Do calor ao conforto. Novo site em preparação.">
   <title>HC Soluções — Ar-condicionado e climatização</title>
@@ -17,11 +17,15 @@
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="hc-symbol" viewBox="0 0 152 120">
-      <rect x="0" y="14" width="18" height="92" fill="currentColor"/><rect x="46" y="14" width="18" height="92" fill="currentColor"/>
-      <rect x="18" y="45" width="28" height="6" fill="currentColor"/><rect x="18" y="57" width="28" height="6" fill="currentColor"/><rect x="18" y="69" width="28" height="6" fill="currentColor"/>
-      <path d="M144.62 34.30A37 37 0 1 0 105.95 94.98" fill="none" stroke="currentColor" stroke-width="18"/>
-      <path d="M108.42 95.74A37 37 0 0 0 144.62 85.70" fill="none" style="stroke:var(--gauge,#d2ff3c)" stroke-width="18"/>
+    <symbol id="hc-symbol" viewBox="0 0 172 120">
+      <g class="hc-flake"><path d="M42.00 60.00L73.00 60.00" style="stroke:var(--flake,#7cc8ff)" stroke-width="6" stroke-linecap="butt" fill="none"/><path d="M59.36 60.00L65.52 52.12" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M59.36 60.00L65.52 67.88" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M42.00 60.00L57.50 86.85" style="stroke:var(--flake,#7cc8ff)" stroke-width="6" stroke-linecap="butt" fill="none"/><path d="M50.68 75.03L60.58 76.43" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M50.68 75.03L46.93 84.31" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M42.00 60.00L26.50 86.85" style="stroke:var(--flake,#7cc8ff)" stroke-width="6" stroke-linecap="butt" fill="none"/><path d="M33.32 75.03L37.07 84.31" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M33.32 75.03L23.42 76.43" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M42.00 60.00L11.00 60.00" style="stroke:var(--flake,#7cc8ff)" stroke-width="6" stroke-linecap="butt" fill="none"/><path d="M24.64 60.00L18.48 67.88" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M24.64 60.00L18.48 52.12" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M42.00 60.00L26.50 33.15" style="stroke:var(--flake,#7cc8ff)" stroke-width="6" stroke-linecap="butt" fill="none"/><path d="M33.32 44.97L23.42 43.57" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M33.32 44.97L37.07 35.69" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M42.00 60.00L57.50 33.15" style="stroke:var(--flake,#7cc8ff)" stroke-width="6" stroke-linecap="butt" fill="none"/><path d="M50.68 44.97L46.93 35.69" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/><path d="M50.68 44.97L60.58 43.57" style="stroke:var(--flake,#7cc8ff)" stroke-width="4.5" stroke-linecap="butt" fill="none"/></g>
+      <rect x="0" y="14" width="18" height="92" style="fill:var(--stem,currentColor)"/><rect x="66" y="14" width="18" height="92" style="fill:var(--stem,currentColor)"/><path d="M164.62 34.30A37 37 0 1 0 164.62 85.70" fill="none" style="stroke:var(--arc,currentColor)" stroke-width="18"/>
+    </symbol>
+    <symbol id="snowflake" viewBox="-12 -12 24 24">
+      <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none">
+        <path d="M0-11V11M-9.5-5.5L9.5 5.5M-9.5 5.5L9.5-5.5"/>
+        <path d="M-3-8.5L0-6 3-8.5M-3 8.5L0 6 3 8.5M-8.9-1.7L-5.2-3-5.9-6.8M8.9 1.7L5.2 3 5.9 6.8M-8.9 1.7L-5.2 3-5.9 6.8M8.9-1.7L5.2-3 5.9-6.8"/>
+      </g>
     </symbol>
   </svg>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
@@ -71,6 +75,7 @@
     <section class="climate" id="clima" aria-labelledby="clima-title" data-climate>
       <div class="climate__stage">
         <div class="climate__air" aria-hidden="true"></div>
+        <div class="climate__snow" aria-hidden="true" data-snow></div>
         <header class="climate__head">
           <span class="mono idx">01</span>
           <h2 id="clima-title" class="climate__title">Do calor ao <em>conforto.</em></h2>
@@ -80,13 +85,13 @@
             <title id="split-title">Aparelho de ar-condicionado split com a marca HC Soluções</title>
             <defs>
               <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#fcfbf7"/><stop offset=".62" stop-color="#ece9e1"/><stop offset="1" stop-color="#d3cfc4"/>
+                <stop offset="0" stop-color="#fbfdff"/><stop offset=".62" stop-color="#e7edf4"/><stop offset="1" stop-color="#c9d3df"/>
               </linearGradient>
               <linearGradient id="ac-sheen" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
               </linearGradient>
               <linearGradient id="ac-air" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#d2ff3c" stop-opacity=".9"/><stop offset="1" stop-color="#d2ff3c" stop-opacity="0"/>
+                <stop offset="0" stop-color="#7cc8ff" stop-opacity=".9"/><stop offset="1" stop-color="#7cc8ff" stop-opacity="0"/>
               </linearGradient>
               <filter id="ac-shadow" x="-10%" y="-20%" width="120%" height="160%">
                 <feDropShadow dx="0" dy="26" stdDeviation="22" flood-color="#000" flood-opacity=".55"/>
@@ -105,13 +110,13 @@
             </g>
             <rect x="96" y="34" width="768" height="3" rx="1.5" fill="url(#ac-sheen)"/>
             <path d="M84 176H876" stroke="#000" stroke-opacity=".07"/>
-            <rect x="96" y="196" width="768" height="28" rx="14" fill="#141412"/>
-            <rect class="split__glow" x="110" y="204" width="740" height="10" rx="5" fill="#d2ff3c"/>
-            <g class="split__flap"><rect x="100" y="198" width="760" height="22" rx="11" fill="#e4e0d6"/><rect x="100" y="198" width="760" height="3" rx="1.5" fill="#fff" opacity=".8"/></g>
-            <image href="./assets/logo/hc-logo-horizontal-aparelho.svg" x="96" y="82" width="215" height="55"/>
+            <rect x="96" y="196" width="768" height="28" rx="14" fill="#0a1424"/>
+            <rect class="split__glow" x="110" y="204" width="740" height="10" rx="5" fill="#7cc8ff"/>
+            <g class="split__flap"><rect x="100" y="198" width="760" height="22" rx="11" fill="#dde5ee"/><rect x="100" y="198" width="760" height="3" rx="1.5" fill="#fff" opacity=".8"/></g>
+            <image href="./assets/logo/hc-logo-horizontal-aparelho.svg" x="96" y="80" width="240" height="59"/>
             <g class="split__display">
-              <rect x="730" y="78" width="134" height="66" rx="16" fill="#121210"/>
-              <circle cx="748" cy="94" r="3" fill="#d2ff3c" class="split__led"/>
+              <rect x="730" y="78" width="134" height="66" rx="16" fill="#0a1424"/>
+              <circle cx="748" cy="94" r="3" fill="#7cc8ff" class="split__led"/>
               <text x="806" y="127" text-anchor="middle" class="split__temp" data-temp-display>22°</text>
               <text x="758" y="97" class="split__mode">COOL</text>
             </g>
