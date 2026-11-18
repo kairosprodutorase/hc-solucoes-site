@@ -5,10 +5,11 @@ Projeto de site da **HC Soluções**, desenvolvido e gerenciado pela **KAIRÓS P
 ## Situação
 Estrutura técnica inicial. O conteúdo, o ramo de atuação, as cores, as imagens e os contatos do cliente ainda precisam ser confirmados. Nenhuma identidade visual oficial foi presumida.
 
-## Identidade visual — Proposta 02 · Floco (atual)
+## Identidade visual — Proposta 02 · Floco (refinada, atual)
 Marca da HC Soluções — ar-condicionado e climatização. Apresentação em `marca.html` e em PDF (`docs/hc-solucoes-identidade-visual-proposta-02.pdf`, 8 páginas, 1440×900).
 
 - **Símbolo**: a barra do H é um **floco de neve** de seis pontas, encaixado nas hastes. O C é o **arco do ar** que circula no ambiente.
+- **Refinamento**: ramificações a 60° (ângulo real do cristal) afastadas das hastes, núcleo hexagonal vazado, C com compensação óptica (traço +1 e ultrapassagem de 1) e mais respiro entre H e C.
 - **Assinatura**: símbolo + "Soluções" em Instrument Serif Itálico + "Ar-condicionado · Climatização" em JetBrains Mono, tudo em curvas.
 - **Cores** (só azul, branco e preto): Noite `#070B12`, Neve `#EEF4FB`, Azul HC `#1F5FFF`, Azul gelo `#7CC8FF`, Azul profundo `#0B1E3A`. Laranja calor `#FF6A3D` apenas como cor funcional para indicar calor — nunca no símbolo.
 - **Arquivos** em `assets/logo/`: horizontal, vertical e símbolo nas versões negativa, positiva, azul, mono branco, mono preto e aparelho; ícone de app.
