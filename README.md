@@ -21,6 +21,7 @@ Marca da HC Soluções — ar-condicionado e climatização. Apresentação em `
 Direção de arte provisória, aguardando aprovação do cliente. O conceito traduz "soluções" em experiência: o visitante rola a página e transforma ruído em forma.
 
 - **Hero interativo**: ~2.800 partículas em campo de fluxo (caos) se organizam no símbolo HC conforme o scroll — as do floco acendem em azul-gelo; o cursor dispersa as partículas.
+- **Split em 3D** (`js/split3d.js`, Three.js local em `js/vendor/three/`, licença MIT): aparelho modelado em código — plástico brilhante com reflexos, painel frontal, saída com palhetas, aleta articulada que abre conforme esfria, visor com a temperatura, logo aplicada, sombra na parede e partículas de ar frio. Gira levemente com o cursor. Sem WebGL, a ilustração em SVG continua no lugar.
 - **Climatização**: um split com a marca HC; ao rolar, o ambiente esfria de 32° para 22°, a aleta abre, o ar sai e a luz passa de laranja (calor) para azul (conforto) e flocos de neve começam a cair.
 - **Entrada com som**: tela de entrada com o símbolo e o botão "Entrar com som" — o clique libera o áudio (navegadores bloqueiam som antes de uma interação) e o site já abre com o som ligado. Há a opção "Entrar sem som" e o botão no topo para desligar a qualquer momento.
 - **PMOC em destaque**: selo no hero, item no menu e seção própria com a base legal (Lei nº 13.589/2018), quem precisa, benefícios e um documento PMOC ilustrativo cujo checklist se preenche ao rolar, terminando com o carimbo "Em dia". O botão de contato aguarda os canais de atendimento.

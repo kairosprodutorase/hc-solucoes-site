@@ -201,6 +201,10 @@ main, .footer { position: relative; z-index: 1; }
 .climate__title em { color: color-mix(in srgb, var(--heat) calc(100% - var(--cp) * 100%), var(--accent)); }
 .climate__unit { position: relative; margin: 0; align-self: center; justify-self: center; width: min(100%, 1040px); }
 .split { display: block; width: 100%; height: auto; overflow: visible; }
+/* Versão 3D: o canvas ocupa o lugar da ilustração (que vira reserva sem WebGL) */
+.split3d { position: absolute; inset: -22% -10% -55% -10%; width: 120%; height: 177%; display: block; pointer-events: none; opacity: 0; transition: opacity .8s var(--ease); }
+.climate__unit.is-3d .split3d { opacity: 1; }
+.climate__unit.is-3d .split { visibility: hidden; }
 .split__temp { font: 500 40px var(--mono); fill: #7cc8ff; letter-spacing: -.02em; }
 .split__mode { font: 500 9px var(--mono); fill: #6b7a90; letter-spacing: .14em; }
 .split__led { animation: pulse 1.8s ease-in-out infinite; }
