@@ -8,7 +8,8 @@ Proposta de site com o conteúdo real da HC Soluções em Climatização (Aracaj
 ## Conteúdo e chamadas para ação
 - **Contatos reais**: WhatsApp (79) 99638-8938 (`wa.me/5579996388938`, com mensagem pronta por serviço), telefone (79) 99671-0369, e-mail hcsolucoesemclimatizacao@gmail.com, Instagram, horário (seg–sex 8h–18h, sáb 8h–12h), endereço e CNPJ no rodapé, dados estruturados `HVACBusiness` (JSON-LD).
 - **Seções**: Serviços (6 + Plano de Gestão para empresas com diagnóstico inicial grátis) · PMOC (verificador, 5 etapas, responsáveis técnicos com CFT, guia em abas — o que consta, periodicidade, documentos, erros comuns, sem PMOC — e perguntas frequentes) · A HC · Como contratar + Por que a HC · Onde atendemos (com "aberto/fechado agora" no fuso de Sergipe) · Contato (formulário que monta a mensagem e abre o WhatsApp; nada é armazenado).
-- Botão flutuante de WhatsApp em todas as telas.
+- Botão flutuante de WhatsApp, que some quando já há outro botão de WhatsApp visível (nunca dois com a mesma função na tela).
+- Uma marca por tela: o logo do menu sai de cena enquanto o "HC" de partículas está formado; a logo no aparelho é preto e branco.
 
 ## Identidade visual — Proposta 02 · Floco (refinada, atual)
 Marca da HC Soluções — ar-condicionado e climatização. Apresentação em `marca.html` e em PDF (`docs/hc-solucoes-identidade-visual-proposta-02.pdf`, 8 páginas, 1440×900).

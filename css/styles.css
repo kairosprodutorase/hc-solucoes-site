@@ -820,3 +820,16 @@ html:not(.js) .doc__list li::before { background-color: var(--blue); border-colo
   .fab, .guide__panel { animation: none; }
 }
 #contato .outro__title { font-size: clamp(3.6rem, 11vw, 11rem); }
+
+/* Revisão: uma marca e um botão de WhatsApp por tela */
+.hero__stage { grid-template-rows: 1fr auto; }
+.brand { transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.brand-hidden .nav .brand { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+.fab { transition: opacity .35s var(--ease), transform .35s var(--ease); }
+.fab.is-hidden { opacity: 0; transform: scale(.6); pointer-events: none; }
+.doc__kind { color: #4a5a70; }
+.contact__title { font-size: clamp(3rem, 8vw, 7.5rem); font-weight: 800; letter-spacing: -.065em; line-height: .9; }
+.contact__title em { color: var(--accent); letter-spacing: -.03em; }
+.intro__symbol { margin-bottom: 4px; }
+.intro__title { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 600; letter-spacing: -.04em; margin-bottom: 18px; }
+.climate__copy { padding-right: 76px; }

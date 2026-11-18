@@ -230,6 +230,8 @@
       const r = hero.getBoundingClientRect();
       heroProgress = clamp(-r.top / Math.max(1, r.height - window.innerHeight));
       hero.style.setProperty('--hp', heroProgress.toFixed(4));
+      // o "HC" de partículas já é a marca: o logo do menu sai de cena enquanto ele aparece
+      document.body.classList.toggle('brand-hidden', heroProgress > 0.3 && r.bottom > window.innerHeight * 0.55);
       if (stateLabel) {
         stateLabel.textContent = heroProgress < 0.3 ? 'complexo' : heroProgress < 0.85 ? 'em organização' : 'claro';
       }
@@ -440,6 +442,17 @@
     if (detail) detail.textContent = isOpen ? `Atendendo até as ${close}h. ` : `${next} Deixe sua mensagem no WhatsApp.`;
     const card = document.querySelector('[data-open-card]');
     if (card && isOpen) card.classList.add('is-open');
+  }
+
+  /* ---------- Botão flutuante: some quando já há um WhatsApp na tela ---------- */
+  const fab = document.querySelector('.fab');
+  if (fab && 'IntersectionObserver' in window) {
+    const seen = new Set();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => (en.isIntersecting ? seen.add(en.target) : seen.delete(en.target)));
+      fab.classList.toggle('is-hidden', seen.size > 0);
+    });
+    document.querySelectorAll('a[href*="wa.me"]:not(.fab), [data-quote]').forEach((el) => io.observe(el));
   }
 
   /* ---------- Relógio local e ano ---------- */
