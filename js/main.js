@@ -35,9 +35,9 @@
       off.width = W; off.height = H;
       const o = off.getContext('2d', { willReadFrequently: true });
       const mobile = W < 720;
-      const h = Math.min(H * (mobile ? 0.34 : 0.56), (W * (mobile ? 0.7 : 0.52)) * 120 / 172);
+      const h = Math.min(H * (mobile ? 0.26 : 0.46), (W * (mobile ? 0.66 : 0.48)) * 120 / 172);
       const w = h * 172 / 120;
-      const cx = W / 2, cy = H * 0.53;
+      const cx = W / 2, cy = H * (mobile ? 0.29 : 0.4); // acima do texto, com respiro
       if (symbolImg.naturalWidth || symbolImg.width) {
         o.drawImage(symbolImg, cx - w / 2, cy - h / 2, w, h);
       } else {
