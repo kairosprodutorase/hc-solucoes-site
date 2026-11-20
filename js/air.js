@@ -105,7 +105,8 @@
     return;
   }
 
-  let audio = null, on = false, raf = 0, wasOn = false, reached = false, gustTimer = 0;
+  let audio = null, on = false, raf = 0, wasOn = false, reached = false, gustTimer = 0, fan = 0;
+  window.addEventListener('hc:fan', (e) => { fan = e.detail.speed; });
 
   const pinkNoise = (ctx, seconds) => {
     const len = ctx.sampleRate * seconds;
@@ -151,8 +152,13 @@
     });
     humLp.connect(humGain).connect(master);
 
+    // Ventilação: sopro mais agudo que acompanha a velocidade da rolagem (termômetro)
+    const fanBand = ctx.createBiquadFilter(); fanBand.type = 'bandpass'; fanBand.frequency.value = 700; fanBand.Q.value = 0.6;
+    const fanGain = ctx.createGain(); fanGain.gain.value = 0;
+    noise.connect(fanBand).connect(fanGain).connect(master);
+
     noise.start();
-    return { ctx, master, windBand, windGain, acLow, acGain, humGain };
+    return { ctx, master, windBand, windGain, acLow, acGain, humGain, fanBand, fanGain };
   };
 
   const beep = (freqs) => {
@@ -190,6 +196,8 @@
     acGain.gain.setTargetAtTime(level * 0.32, now, 0.25);
     humGain.gain.setTargetAtTime(level * 0.018, now, 0.4);
     acLow.frequency.setTargetAtTime(600 + level * 700 + gust * 400, now, 0.3);
+    audio.fanGain.gain.setTargetAtTime(fan * 0.28, now, 0.15);
+    audio.fanBand.frequency.setTargetAtTime(520 + fan * 1100, now, 0.2);
 
     if (inView) {                                      // bip ao ligar e ao chegar a 22°
       if (cp > 0.05 && !wasOn) { wasOn = true; beep([1760, 2350]); }

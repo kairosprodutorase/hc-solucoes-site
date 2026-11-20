@@ -37,9 +37,11 @@ Direção de arte provisória, aguardando aprovação do cliente. O conceito tra
 - **Método**: quatro etapas (Escutar, Mapear, Resolver, Acompanhar) com preenchimento em cor-sinal no hover/foco.
 - **Bastidores**: painel honesto com o estado do projeto (estrutura, identidade, conteúdo, lançamento).
 - **Encerramento**: assinatura tipográfica e relógio na hora local do visitante.
+- **Base de movimento** (`js/motion.js`, inspirada na análise em `docs/analise-experiencia-united-carriers.md`): rolagem suave com Lenis (local em `js/vendor/lenis/`, licença MIT), inclusive nos links do menu; títulos e textos de abertura entram palavra por palavra, subindo e saindo do desfoque; o cabeçalho sai ao descer, volta ao subir e sublinha a seção atual; cursor com o floco que gira e cresce sobre links, com onda no clique; letras embaralhadas no hover do menu e dos botões. Cursor e embaralhamento só no desktop com mouse.
+- **Termômetro + ventilação**: ficha fixa no canto inferior esquerdo. Fica fora da abertura e da seção do split (que já mostra a temperatura) e depois marca 22°; a ventilação (baixa, média, alta, turbo) e o floco-hélice seguem a velocidade com que o visitante rola, e com o som ligado um sopro acompanha a ventilação.
 
 Tipografia: Inter Tight, Instrument Serif e JetBrains Mono (Google Fonts). Cores em variáveis CSS no topo de `css/styles.css`.
-Acessibilidade: link de pular conteúdo, foco visível, navegação por teclado no Método, `prefers-reduced-motion` respeitado (sem animações, hero estático) e conteúdo legível sem JavaScript.
+Acessibilidade: link de pular conteúdo, foco visível, navegação por teclado no Método, `prefers-reduced-motion` respeitado (sem animações, hero estático, sem rolagem suave, cursor ou termômetro) e conteúdo legível sem JavaScript.
 
 Textos de manifesto e método são genéricos e precisam de validação; nenhum serviço, contato ou dado do cliente foi inventado.
 
@@ -49,6 +51,7 @@ Textos de manifesto e método são genéricos e precisam de validação; nenhum 
 - `css/styles.css`: tokens e estilos
 - `js/main.js`: camadas de interação (partículas, scroll, cartões, relógio). A página funciona sem JavaScript.
 - `js/air.js`: correntes de vento (canvas) e som ambiente (Web Audio)
+- `js/motion.js`: rolagem suave, revelação de títulos, cabeçalho, cursor, letras embaralhadas e termômetro
 - `assets/logo/`: arquivos da marca proposta; `assets/favicon.svg` usa o símbolo
 - `docs/`: PDF de apresentação da marca
 - `tools/logo/`: gerador dos SVGs da marca

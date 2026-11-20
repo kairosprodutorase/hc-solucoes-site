@@ -833,3 +833,104 @@ html:not(.js) .doc__list li::before { background-color: var(--blue); border-colo
 .intro__symbol { margin-bottom: 4px; }
 .intro__title { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 600; letter-spacing: -.04em; margin-bottom: 18px; }
 .climate__copy { padding-right: 76px; }
+
+/* ==========================================================================
+   Base de movimento (js/motion.js)
+   ========================================================================== */
+/* Rolagem suave: o Lenis cuida da suavidade, o CSS não pode competir */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Títulos: cada palavra sobe e sai do desfoque, uma depois da outra */
+.wsplit .sw { display: inline-block; }
+.wsplit .sw > span {
+  display: inline-block;
+  opacity: 0; transform: translateY(.45em); filter: blur(8px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
+  transition-delay: min(calc(var(--i) * 32ms), 900ms);
+}
+.wsplit.is-split-in .sw > span { opacity: 1; transform: none; filter: none; }
+
+/* Cabeçalho: sai ao descer, volta ao subir; a seção atual fica sublinhada */
+.nav { transition: transform .6s var(--ease); }
+.nav.is-away { transform: translateY(-110%); }
+.nav ul a[aria-current="true"]::after { transform: scaleX(1); transform-origin: left; }
+
+/* Letras embaralhadas: largura travada durante o efeito */
+.scramble { vertical-align: baseline; }
+
+/* Cursor com o floco (só desktop com mouse) */
+.has-cursor, .has-cursor a, .has-cursor button, .has-cursor label, .has-cursor select, .has-cursor [role="tab"] { cursor: none; }
+.has-cursor input:not([type="radio"]):not([type="checkbox"]), .has-cursor textarea { cursor: text; }
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 200; pointer-events: none;
+  width: 0; height: 0; mix-blend-mode: difference; color: #fff;
+  opacity: 0; transition: opacity .3s;
+}
+.cursor.is-on { opacity: 1; }
+.cursor__ring {
+  position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .7);
+  transition: transform .45s var(--ease), background-color .3s, border-color .3s;
+}
+.cursor__flake {
+  position: absolute; left: -6px; top: -6px; width: 12px; height: 12px;
+  transform: rotate(var(--spin, 0deg)); transition: width .3s var(--ease), height .3s var(--ease), left .3s var(--ease), top .3s var(--ease);
+}
+.cursor.is-link .cursor__ring { transform: scale(1.75); background: rgba(255, 255, 255, .12); border-color: #fff; }
+.cursor.is-link .cursor__flake { width: 18px; height: 18px; left: -9px; top: -9px; }
+.cursor.is-down .cursor__ring { transform: scale(.8); }
+.cursor.is-link.is-down .cursor__ring { transform: scale(1.45); }
+.cursor.is-text { opacity: 0; }
+.cursor-ripple {
+  position: fixed; z-index: 199; pointer-events: none; width: 36px; height: 36px; margin: -18px 0 0 -18px;
+  border-radius: 50%; border: 1px solid var(--accent); mix-blend-mode: difference;
+  animation: ripple .7s var(--ease) forwards;
+}
+@keyframes ripple { from { transform: scale(.6); opacity: .9; } to { transform: scale(2.6); opacity: 0; } }
+
+/* Termômetro + ventilação: canto inferior esquerdo (o WhatsApp fica à direita) */
+.hud {
+  --hot: 1;
+  position: fixed; left: max(18px, env(safe-area-inset-left)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 74;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px 10px 12px; border-radius: 999px;
+  background: rgba(7, 11, 18, .55); border: 1px solid var(--line);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: var(--ink); pointer-events: none;
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.hud.is-hidden { opacity: 0; transform: translateY(12px); }
+.hud__fan {
+  width: 26px; height: 26px; flex: none;
+  color: color-mix(in srgb, var(--heat) calc(var(--hot) * 100%), var(--accent));
+}
+.hud__temp { display: inline-flex; align-items: flex-start; font: 600 1.7rem/1 var(--mono); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.hud__temp b { font-weight: 600; }
+.hud__temp i { font-style: normal; font-size: .9rem; margin-top: 2px; color: var(--muted); }
+.hud__info { display: grid; gap: 5px; }
+.hud__info small { font: 500 .62rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.hud__state { color: color-mix(in srgb, var(--heat) calc(var(--hot) * 100%), var(--accent)) !important; }
+.hud__fanrow { display: inline-flex; align-items: center; gap: 7px; }
+.hud__bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
+.hud__bars i { width: 3px; border-radius: 1px; background: var(--line); transition: background-color .25s; }
+.hud__bars i:nth-child(1) { height: 4px; } .hud__bars i:nth-child(2) { height: 6px; }
+.hud__bars i:nth-child(3) { height: 8px; } .hud__bars i:nth-child(4) { height: 10px; }
+.hud__bars i:nth-child(1),
+.hud[data-level="1"] .hud__bars i:nth-child(-n+2),
+.hud[data-level="2"] .hud__bars i:nth-child(-n+3),
+.hud[data-level="3"] .hud__bars i { background: var(--accent); }
+.hud[data-level="3"] .hud__fanrow small { color: var(--accent); }
+.intro-open .hud { display: none; }
+
+@media (max-width: 720px) {
+  .hud { gap: 8px; padding: 7px 12px 7px 9px; }
+  .hud__fan { width: 20px; height: 20px; }
+  .hud__temp { font-size: 1.25rem; }
+  .hud__state, .hud__fanrow small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hud, .cursor, .cursor-ripple { display: none; }
+}
