@@ -15,6 +15,8 @@
   <script>document.documentElement.classList.add('js');</script>
   <script src="./js/main.js" defer></script>
   <script src="./js/air.js" defer></script>
+  <script src="./js/intro-map.js" defer></script>
+  <script src="./js/preload.js" defer></script>
   <script src="./js/vendor/lenis/lenis.min.js" defer></script>
   <script src="./js/motion.js" defer></script>
   <script type="importmap">{ "imports": { "three": "./js/vendor/three/three.module.min.js" } }</script>
@@ -61,6 +63,18 @@
     </symbol>
   </svg>
   <div class="intro" data-intro role="dialog" aria-modal="true" aria-labelledby="intro-title" hidden>
+    <!-- Pré-carregador: mapa pontilhado de Aracaju e Barra dos Coqueiros (malhas do IBGE) que acende a partir da sede; a temperatura cai de 32° a 22° com o carregamento -->
+    <div class="preload" data-preload aria-hidden="true">
+      <canvas class="preload__map" data-preload-map></canvas>
+      <ul class="preload__list preload__list--left mono">
+        <li>Atendimento</li><li>Barra dos Coqueiros</li><li>Aracaju</li><li>Sede · Atalaia Nova</li><li>Seg a sex · 8h às 18h</li><li>Sáb · 8h às 12h</li>
+      </ul>
+      <ul class="preload__list preload__list--right mono">
+        <li>Instalação</li><li>Manutenção</li><li>Limpeza e higienização</li><li>Infraestrutura</li><li>PMOC</li><li>Plano de gestão</li><li>Venda de máquinas</li>
+      </ul>
+      <p class="preload__temp mono"><svg class="preload__flake"><use href="#snowflake"/></svg><b data-preload-temp>32</b><i>°</i></p>
+    </div>
+    <p class="sr-only" data-preload-status role="status">Carregando o site…</p>
     <div class="intro__inner">
       <svg class="intro__symbol" aria-hidden="true"><use href="#hc-symbol"/></svg>
       <p class="intro__title" id="intro-title">Soluções <em>em climatização</em></p>

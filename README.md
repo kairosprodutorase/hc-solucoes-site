@@ -38,6 +38,7 @@ Direção de arte provisória, aguardando aprovação do cliente. O conceito tra
 - **Bastidores**: painel honesto com o estado do projeto (estrutura, identidade, conteúdo, lançamento).
 - **Encerramento**: assinatura tipográfica e relógio na hora local do visitante.
 - **Base de movimento** (`js/motion.js`, inspirada na análise em `docs/analise-experiencia-united-carriers.md`): rolagem suave com Lenis (local em `js/vendor/lenis/`, licença MIT), inclusive nos links do menu; títulos e textos de abertura entram palavra por palavra, subindo e saindo do desfoque; o cabeçalho sai ao descer, volta ao subir e sublinha a seção atual; cursor com o floco que gira e cresce sobre links, com onda no clique; letras embaralhadas no hover do menu e dos botões. Cursor e embaralhamento só no desktop com mouse.
+- **Pré-carregador** (`js/preload.js`): a tela de entrada abre com o mapa pontilhado de Aracaju, Barra dos Coqueiros e arredores, desenhado a partir das malhas municipais do IBGE (`tools/mapa/gerar-mapa.py` gera `js/intro-map.js`). Enquanto o site carrega de verdade (fontes e demais arquivos), os pontos acendem a partir da sede em Atalaia Nova, atravessam a ponte e chegam a Aracaju; as listas de atendimento e de serviços acendem junto e a temperatura no canto cai de 32° para 22°. Ao terminar, o mapa recua e entram a marca e os botões "Entrar com som" / "Entrar sem som". Leva no mínimo ~1,8 s e nunca segura o visitante mais de 7 s; Esc entra sem som a qualquer momento.
 - **Termômetro + ventilação**: ficha fixa no canto inferior esquerdo. Fica fora da abertura e da seção do split (que já mostra a temperatura) e depois marca 22°; a ventilação (baixa, média, alta, turbo) e o floco-hélice seguem a velocidade com que o visitante rola, e com o som ligado um sopro acompanha a ventilação.
 
 Tipografia: Inter Tight, Instrument Serif e JetBrains Mono (Google Fonts). Cores em variáveis CSS no topo de `css/styles.css`.
@@ -51,10 +52,12 @@ Textos de manifesto e método são genéricos e precisam de validação; nenhum 
 - `css/styles.css`: tokens e estilos
 - `js/main.js`: camadas de interação (partículas, scroll, cartões, relógio). A página funciona sem JavaScript.
 - `js/air.js`: correntes de vento (canvas) e som ambiente (Web Audio)
+- `js/preload.js` e `js/intro-map.js`: pré-carregador e grade de pontos do mapa (gerada, não editar)
 - `js/motion.js`: rolagem suave, revelação de títulos, cabeçalho, cursor, letras embaralhadas e termômetro
 - `assets/logo/`: arquivos da marca proposta; `assets/favicon.svg` usa o símbolo
 - `docs/`: PDF de apresentação da marca
 - `tools/logo/`: gerador dos SVGs da marca
+- `tools/mapa/`: malhas do IBGE e gerador do mapa do pré-carregador
 - `.gitignore`: arquivos locais a não versionar
 
 ## Execução local

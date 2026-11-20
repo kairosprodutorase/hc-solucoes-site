@@ -934,3 +934,58 @@ html.lenis, html.lenis body { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   .hud, .cursor, .cursor-ripple { display: none; }
 }
+
+/* ==========================================================================
+   Pré-carregador (js/preload.js): mapa de Aracaju e Barra dos Coqueiros
+   ========================================================================== */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.preload { --hot: 1; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.preload__map {
+  position: absolute; left: 50%; top: 50%;
+  width: min(60vw, 84vh * 112 / 102); aspect-ratio: 112 / 102;
+  transform: translate(-50%, -50%);
+  transition: opacity 1.2s var(--ease), transform 1.4s var(--ease);
+}
+.preload__list {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 7px;
+  font-size: .68rem; color: rgba(139, 153, 173, .4);
+  transition: opacity 1s var(--ease);
+}
+.preload__list--left { left: var(--pad); }
+.preload__list--right { right: var(--pad); text-align: right; }
+.preload__list li { transition: color .5s var(--ease); }
+.preload__list li.is-lit { color: var(--ink); }
+.preload__list--left li:first-child { color: var(--accent); margin-bottom: 6px; }
+.preload__temp {
+  position: absolute; top: 22px; right: var(--pad); margin: 0;
+  display: inline-flex; align-items: center; gap: 10px; font-size: .9rem; letter-spacing: 0;
+  color: color-mix(in srgb, var(--heat) calc(var(--hot) * 100%), var(--accent));
+  transition: opacity .8s var(--ease);
+}
+.preload__temp b { font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink); }
+.preload__temp i { font-style: normal; margin-left: -8px; color: var(--muted); }
+.preload__flake { width: 14px; height: 14px; animation: spin 1.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* carregando: só o mapa; pronto: o mapa recua e a marca com os botões entra */
+.intro__inner { position: relative; z-index: 1; transition: opacity 1s var(--ease), transform 1s var(--ease), filter 1s var(--ease); }
+.intro__inner::before {
+  content: ""; position: absolute; inset: -30% -40%; z-index: -1;
+  background: radial-gradient(closest-side, rgba(7, 11, 18, .9), rgba(7, 11, 18, .6) 55%, transparent);
+}
+.intro.is-loading .intro__inner { opacity: 0; visibility: hidden; transform: translateY(14px); filter: blur(8px); }
+.intro.is-loading .intro__symbol { animation: none; }
+.intro.is-ready .preload__map { opacity: .38; transform: translate(-50%, -50%) scale(.94); }
+.intro.is-ready .preload__list { opacity: .55; }
+.intro.is-ready .preload__temp { opacity: .6; }
+.intro.is-ready .preload__flake { animation-duration: 6s; }
+
+@media (max-width: 900px) {
+  .preload__list { display: none; }
+  .preload__map { width: min(94vw, 70vh * 112 / 102); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .preload__flake { animation: none; }
+  .intro__inner, .preload__map { transition: none; }
+}
