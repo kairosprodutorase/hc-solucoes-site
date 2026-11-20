@@ -92,7 +92,41 @@ O site da HC já tem a base certa: hero de partículas que formam o "HC", split 
 
 ---
 
-## 5. O que **não** trazer
+## 5. O encerramento
+
+### Como eles fecham
+
+A jornada não termina de repente. Depois do ponto mais alto (a câmera nas nuvens e a asa de avião nos depoimentos), o site **desacelera** em quatro passos:
+
+1. **Prova**: depoimentos, grade de parceiros e notícias. O ritmo cai, o fundo volta a ser branco e as animações ficam pequenas (hover, imagem seguindo o cursor).
+2. **Última dúvida**: FAQ numerado, com "Ainda tem dúvidas? Fale com a gente" ao lado. Tira as objeções antes do pedido.
+3. **Chamada final**: tela escura, círculos concêntricos ao fundo, "Ready to move smarter?" com degradê azul e **um único botão**. É o último momento "de impacto" da página.
+4. **Assinatura**: o rodapé repete o slogan do hero ("One operator. Every leg of the journey."), mostra o letreiro corrido de serviços e setores, o mapa com os escritórios acesos e termina com o **logotipo gigante em partículas**, que o visitante dispersa com o mouse. A última coisa que se vê é a marca.
+
+O que faz funcionar: **o fim conversa com o começo**. O mapa pontilhado do carregamento volta no rodapé, o slogan do hero volta como assinatura, e o velocímetro já zerou: a viagem chegou.
+
+### Como a HC fecha: "chegou a 22°"
+
+O fim da jornada da HC é o **ambiente confortável**. A ideia é que o visitante sinta que chegou, e só então receba o pedido.
+
+| Passo | O que acontece | O que já existe |
+|---|---|---|
+| Chegada | O termômetro do canto chega a **22°**, toca o bipe de "temperatura atingida", os flocos param de cair e o vento diminui até ficar quase em silêncio. O ventilador volta para "baixa". | Bipe de 22° e vento em `js/air.js` |
+| Prova | Avaliações do Google e marcas atendidas, em ritmo calmo (fundo Neve, poucas animações). | Pendente: conteúdo do cliente |
+| Última dúvida | FAQ numerado com "Ainda tem dúvida? Chame no WhatsApp" ao lado. | FAQ do PMOC |
+| Chamada final | Tela Noite, **ondas de ar frio** (círculos concêntricos) saindo do botão do WhatsApp; título "Vamos cuidar *do seu ar?*" com o "do seu ar" acendendo em azul-gelo. Ao lado, o formulário de 4 perguntas que abre o WhatsApp. **Um botão principal só.** | Seção Contato e formulário |
+| Assinatura | Rodapé repete a frase do hero; letreiro corrido de bairros e serviços (abas "Bairros" / "Serviços"); mini mapa pontilhado de Aracaju e Barra com a sede acesa (o mesmo do carregamento); relógio local com "aberto agora / fechado agora". | "Aberto/fechado agora" e relógio já existem |
+| Última imagem | **As partículas voltam a formar "HC"** no fim da página, como no hero: a página começa no caos e termina na forma. O visitante pode dispersar com o mouse e elas se reorganizam. | Motor de partículas do hero |
+
+Cuidados:
+- O encerramento tem de ser **curto**: de "chegou a 22°" até o fim do rodapé, no máximo 3 telas.
+- O botão flutuante do WhatsApp continua sumindo quando o botão da chamada final está visível (regra atual: nunca dois com a mesma função na tela).
+- Com movimento reduzido: sem partículas animadas no fim; a marca aparece estática e o termômetro mostra 22° direto.
+- No celular, as partículas do rodapé ficam com menos pontos (ou viram a logo em SVG) para não pesar no fim da página.
+
+---
+
+## 6. O que **não** trazer
 
 - Selo "Site of the Day", carrinho/Stripe, banner de cookies (não rastreamos nada).
 - O comprimento: 31 telas é demais para um serviço local. Meta: **12–15 telas** no desktop.
@@ -102,7 +136,7 @@ O site da HC já tem a base certa: hero de partículas que formam o "HC", split 
 
 ---
 
-## 6. Tecnologia recomendada
+## 7. Tecnologia recomendada
 
 - **GSAP + ScrollTrigger + SplitText** (gratuitos desde 2025) e **Lenis**, copiados para `js/vendor/` como o Three.js — o site continua sem etapa de build e publicável no Cloudflare Pages.
 - Reaproveitar: motor de partículas (`js/main.js`), split 3D (`js/split3d.js`), vento e som (`js/air.js`).
@@ -112,13 +146,13 @@ O site da HC já tem a base certa: hero de partículas que formam o "HC", split 
 
 ---
 
-## 7. Ordem de implementação sugerida
+## 8. Ordem de implementação sugerida
 
 1. **Base de movimento** — Lenis + GSAP/ScrollTrigger, revelações padronizadas, cabeçalho que muda de modo, cursor e texto embaralhado. *(baixo risco, ganho imediato de "acabamento")*
 2. **HUD termômetro/ventilação** lendo a rolagem, ligado ao som de vento. *(o detalhe mais memorável, custo baixo)*
 3. **Pré-carregador** com mapa pontilhado de Aracaju/Barra e temperatura caindo.
 4. **Jornada fixa** "do chamado ao conforto": van na rua → split sendo instalado/limpo → prédio comercial → PMOC, com serviços em painel horizontal e texto gigante ao fundo.
-5. **Rodapé** com marca em partículas, letreiro de bairros/serviços e mini mapa.
+5. **Encerramento** "chegou a 22°": chegada com bipe e silêncio, chamada final com ondas de ar, rodapé com letreiro, mini mapa e partículas formando o HC de novo.
 6. **Conteúdo do cliente**: números reais, avaliações do Google, marcas atendidas, fotos do Instagram.
 
 Pendências com o cliente (não inventar): números da empresa, depoimentos, lista de bairros atendidos, marcas, autorização para usar fotos do Instagram.
