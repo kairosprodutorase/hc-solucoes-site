@@ -60,6 +60,7 @@
     const frame = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
+      if (document.documentElement.classList.contains('motion-paused')) { requestAnimationFrame(frame); return; }
       gust *= 0.96;
       const cool = climateInView() ? climateLevel() : 0;
       const boost = 1 + gust * 3.2 + cool * 0.8;

@@ -903,7 +903,8 @@ html.lenis, html.lenis body { height: auto; }
   .hud { gap: 8px; padding: 7px 12px 7px 9px; }
   .hud__fan { width: 20px; height: 20px; }
   .hud__temp { font-size: 1.25rem; }
-  .hud__state, .hud__fanrow small { display: none; }
+  .hud__fanrow small { display: none; }
+  .hud__state { font-size: .56rem !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hud, .cursor, .cursor-ripple { display: none; }
@@ -949,3 +950,214 @@ html.lenis, html.lenis body { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   .preload__flake { animation: none; }
 }
+
+/* ==========================================================================
+   Roteiro "Um dia em Aracaju" (reports/Roteiro de rolagem HC Soluções.md)
+   Cada cena declara seu tom; os componentes já usam as variáveis, então
+   trocar o tom troca texto, linhas e destaques juntos.
+   ========================================================================== */
+:root {
+  --noite: #070b12; --neve: #eef4fb; --azul-hc: #1f5fff; --gelo: #7cc8ff; --profundo: #0b1e3a;
+  --laranja: #ff6a3d; --mormaco: #251617; --gelo-claro: #c6e5fc;
+}
+.tom-escuro {
+  --bg: var(--noite); --bg-2: #0d1522; --ink: var(--neve); --muted: #8b99ad;
+  --line: rgba(238, 244, 251, .12); --accent: var(--gelo); --accent-ink: var(--noite);
+  color: var(--ink);
+}
+/* claro: cinza secundário escuro (6,35:1 sobre Neve); destaque em Azul HC (Azul gelo e laranja nunca viram texto no claro) */
+.tom-claro, .tom-gelo {
+  --bg: var(--neve); --bg-2: #ffffff; --ink: var(--noite); --muted: #4a5a70;
+  --line: rgba(7, 11, 18, .12); --accent: var(--azul-hc); --accent-ink: var(--neve);
+  color: var(--ink); color-scheme: light;
+}
+.tom-gelo { --bg: var(--gelo-claro); --bg-2: #dcefff; }
+.tom-claro.section, .tom-gelo.section, .marquee.tom-gelo { background: var(--bg); }
+.tom-claro ::selection, .tom-gelo ::selection { background: var(--azul-hc); color: var(--neve); }
+
+/* componentes que tinham cores escuras fixas, no claro */
+.tom-claro .svc:hover { background: #fff; border-color: rgba(31, 95, 255, .45); box-shadow: 0 18px 40px rgba(11, 30, 58, .1); }
+.tom-claro .svc__tag { border-color: rgba(31, 95, 255, .35); }
+.tom-claro .guide__panel > p, .tom-claro .period td:last-child, .tom-claro .faq__item p, .tom-claro .rt__lede { color: var(--muted); }
+.guide.tom-claro, .faq.tom-claro { background: var(--neve); border-color: transparent; box-shadow: 0 30px 80px rgba(0, 0, 0, .35); }
+.tom-claro .guide__tabs { background: rgba(7, 11, 18, .06); border-color: var(--line); }
+.tom-claro .guide__ol li, .tom-claro .period td { border-top-color: var(--line); }
+.tom-claro .guide__checks li, .tom-claro .faq__item { background: #fff; border-color: var(--line); }
+.tom-claro .faq__item[open] { border-color: rgba(31, 95, 255, .5); }
+.tom-claro .faq__item summary::after { border-color: rgba(31, 95, 255, .4); }
+.tom-claro .faq__item[open] summary::after { background: rgba(31, 95, 255, .1); }
+.tom-claro .table-wrap { border-color: var(--line); }
+.tom-claro .period tbody tr:nth-child(odd) { background: rgba(7, 11, 18, .03); }
+.tom-claro [role="tab"][aria-selected="true"], .tom-claro .guide__tabs button[aria-selected="true"] { color: var(--neve); }
+.tom-gelo .proof__list svg { background: rgba(31, 95, 255, .12); }
+.tom-gelo .manifesto__text .w.is-key { color: var(--azul-hc); }
+.tom-gelo .marquee__track em { color: var(--azul-hc); }
+.tom-gelo.marquee { border-color: var(--line); }
+
+/* ---------- 12h · hero claro e quente ---------- */
+.hero { height: 140vh; }
+.hero .hero__stage {
+  background:
+    radial-gradient(900px 620px at 92% -8%, rgba(255, 106, 61, .2), transparent 62%),
+    radial-gradient(700px 500px at 0% 110%, rgba(31, 95, 255, .07), transparent 60%),
+    var(--neve);
+  grid-template-rows: auto 1fr auto;
+}
+.hero__sun { /* o sol do meio-dia: um halo que pulsa devagar no canto */
+  position: absolute; right: -14vmax; top: -18vmax; width: 46vmax; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 106, 61, .32), rgba(255, 106, 61, .08) 60%, transparent);
+  animation: sun 7s ease-in-out infinite alternate; opacity: calc(1 - var(--hp, 0) * .7);
+}
+@keyframes sun { to { transform: scale(1.06); } }
+.hero__kicker { position: relative; z-index: 2; color: var(--muted); padding-top: 8px; }
+.hero__kicker span { color: var(--ink); }
+.hero__kicker b { color: #b8401b; font-weight: 500; } /* laranja escurecido: 4,9:1 sobre Neve */
+.hero__title { font-size: clamp(3rem, 9.6vw, 9.6rem); }
+.hero__copy p b { color: var(--ink); font-weight: 600; }
+.hero .pmoc-badge { background: rgba(31, 95, 255, .08); border-color: rgba(31, 95, 255, .3); color: var(--ink); }
+
+/* ---------- 13h · o chamado ---------- */
+.route { position: relative; background: var(--profundo); padding: clamp(96px, 12vw, 160px) var(--pad); }
+.route .card { background: radial-gradient(400px circle at var(--mx) var(--my), rgba(124, 200, 255, .09), transparent 50%), rgba(7, 11, 18, .45); min-height: 0; }
+.iris { position: sticky; top: 0; height: 100vh; height: 100svh; margin: calc(clamp(96px, 12vw, 160px) * -1) calc(var(--pad) * -1) -100svh; z-index: 3; pointer-events: none; overflow: hidden; }
+.iris svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--neve); transform: scale(var(--is, 1)); transform-origin: 50% 50%; will-change: transform; }
+.iris.is-done { visibility: hidden; }
+.route__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; max-width: 1400px; margin: 0 auto; }
+.route__map { margin: 0; position: relative; }
+.route__map canvas { display: block; width: 100%; aspect-ratio: 112 / 102; }
+.route__map figcaption { color: var(--muted); margin-top: 12px; }
+.route__copy { display: grid; gap: 18px; }
+.route__copy .section__lede { grid-column: auto; margin-top: 0; }
+.route__title { font-size: clamp(2.6rem, 6vw, 5.6rem); font-weight: 700; letter-spacing: -.06em; line-height: .95; }
+.route__title em { color: var(--gelo); }
+.route .board { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 8px; }
+.route .card h3 { margin-top: 18px; font-size: clamp(1.2rem, 1.6vw, 1.5rem); }
+
+/* ---------- 14h · split: mormaço → azul profundo; condensação na saída ---------- */
+.climate { height: 220vh; border-top: 0; }
+.climate__stage { background: color-mix(in srgb, var(--mormaco) calc((1 - var(--cp)) * 100%), var(--profundo)); }
+.frost { /* a condensação toma as bordas e embaça até virar a cena clara */
+  position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: var(--fp, 0);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.035 .07' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .96 0 0 0 0 1 0 0 0 1.4 -.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, rgba(238, 244, 251, calc(var(--fp, 0) * var(--fp, 0))) 0%, rgba(238, 244, 251, .9) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent calc((1 - var(--fp, 0)) * 70%), #000 calc((1 - var(--fp, 0)) * 70% + 30%));
+  mask-image: radial-gradient(ellipse at center, transparent calc((1 - var(--fp, 0)) * 70%), #000 calc((1 - var(--fp, 0)) * 70% + 30%));
+}
+.frost::after { content: ""; position: absolute; inset: 0; background: var(--neve); opacity: clamp(0, calc((var(--fp, 0) - .75) * 4), 1); }
+
+/* ---------- 15h · linha de ar ---------- */
+.airline-wrap { position: relative; padding-left: clamp(28px, 4vw, 56px); }
+.airline { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--line); border-radius: 2px; }
+.airline i { position: absolute; inset: 0; background: linear-gradient(180deg, var(--gelo), var(--azul-hc)); transform-origin: top; transform: scaleY(var(--ap, 0)); border-radius: 2px; }
+.airline i::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: var(--azul-hc); box-shadow: 0 0 0 6px rgba(31, 95, 255, .15); }
+.js .airline-wrap .svc { transition: border-color .5s, transform .4s var(--ease), background-color .3s, box-shadow .5s; }
+.js .airline-wrap .svc.is-lit { border-color: rgba(31, 95, 255, .45); box-shadow: inset 3px 0 0 var(--azul-hc); }
+
+/* ---------- aletas: barras fecham na cor da cena seguinte ---------- */
+.slats { position: relative; height: 70vh; background: var(--from); overflow: hidden; }
+.slats i { position: absolute; left: 0; right: 0; height: calc(100% / 8 + 1px); background: var(--to); transform-origin: top; transform: scaleY(var(--s, 0)); }
+.slats i:nth-child(1) { top: 0; } .slats i:nth-child(2) { top: 12.5%; } .slats i:nth-child(3) { top: 25%; } .slats i:nth-child(4) { top: 37.5%; }
+.slats i:nth-child(5) { top: 50%; } .slats i:nth-child(6) { top: 62.5%; } .slats i:nth-child(7) { top: 75%; } .slats i:nth-child(8) { top: 87.5%; }
+html:not(.js) .slats { display: none; }
+
+/* ---------- 16h · PMOC em azul profundo ---------- */
+.pmoc { background: linear-gradient(180deg, var(--profundo) 0%, #0a1830 100%); }
+
+/* ---------- 18h · o céu esfria ---------- */
+.sky {
+  position: relative; min-height: 130vh; display: grid; place-content: center; text-align: center; gap: 16px; padding: 0 var(--pad);
+  background: linear-gradient(180deg, var(--gelo-claro) 0%, #8fc0f5 22%, var(--azul-hc) 52%, #0b2a72 72%, var(--noite) 100%);
+  color: var(--noite);
+}
+.sky__kicker { color: var(--noite); opacity: .7; }
+.sky__title { font-size: clamp(2.8rem, 8vw, 7.4rem); font-weight: 700; letter-spacing: -.06em; line-height: .92; color: var(--noite); }
+.sky__title em { color: var(--noite); }
+
+/* ---------- 18h30 · a ponte ---------- */
+.bridge { position: relative; height: 280vh; background: var(--noite); }
+.bridge__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+.bridge__frame { grid-column: 2; position: relative; height: 100%; aspect-ratio: 9 / 16; }
+.bridge__poster, .bridge__canvas, .bridge__dots { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.bridge__canvas { opacity: 0; transition: opacity .6s var(--ease); }
+.bridge.is-live .bridge__canvas { opacity: 1; }
+.bridge__frame::after { /* a borda do vídeo se dissolve na noite */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 60px 30px var(--noite);
+}
+.bridge__dots { opacity: var(--dp, 0); }
+.bridge__canvas { filter: brightness(calc(1 - var(--dp, 0) * .85)); }
+.bridge__play {
+  position: absolute; left: 50%; bottom: 14%; transform: translateX(-50%); z-index: 2;
+  background: var(--neve); color: var(--noite); border: 0; border-radius: 999px; padding: 12px 20px; cursor: pointer;
+}
+.bridge__copy { grid-column: 3; padding: 0 var(--pad) 0 clamp(24px, 4vw, 64px); display: grid; gap: 14px; max-width: 520px; }
+.bridge__copy .idx { color: var(--gelo); }
+.bridge__title { font-size: clamp(2rem, 3.6vw, 3.6rem); font-weight: 700; letter-spacing: -.05em; line-height: .98; }
+.bridge__title em { color: var(--gelo); }
+.bridge__lede { color: #8b99ad; }
+
+/* ---------- 19h · contato: ondas de ar frio ---------- */
+.outro { background: var(--noite); }
+.outro::before, .outro::after { /* ondas concêntricas atrás do título */
+  content: ""; position: absolute; left: 50%; top: 30%; width: 120vmin; aspect-ratio: 1; margin-left: -60vmin; margin-top: -60vmin; border-radius: 50%; pointer-events: none;
+  border: 1px solid rgba(124, 200, 255, .14); animation: wave 6s cubic-bezier(.2, .7, .1, 1) infinite;
+}
+.outro::after { animation-delay: 3s; }
+@keyframes wave { from { transform: scale(.25); opacity: 1; } to { transform: scale(1.4); opacity: 0; } }
+.outro > * { position: relative; z-index: 1; }
+
+/* ---------- rodapé: o mapa do começo e a hora real ---------- */
+.site-footer__map { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: 32px; align-items: end; margin-bottom: 48px; }
+.site-footer__map canvas { display: block; width: 100%; aspect-ratio: 112 / 102; }
+.site-footer__now { color: #8b99ad; }
+.site-footer__now time { color: var(--neve); font-size: 1rem; font-variant-numeric: tabular-nums; }
+.site-footer__now b { color: var(--gelo); font-weight: 500; }
+
+/* ---------- termômetro-relógio ---------- */
+.hud__clock { font: 500 .62rem/1 var(--mono); letter-spacing: .08em; color: var(--neve); }
+
+/* ---------- pausar animações ---------- */
+.pause {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font: 500 .72rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: inherit;
+  background: none; border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px; padding: 7px 12px;
+}
+.pause:hover { border-color: #fff; }
+.pause__icon { width: 8px; height: 10px; border-inline: 2px solid currentColor; }
+.motion-paused .pause__icon { border: 0; width: 0; height: 0; border-left: 8px solid currentColor; border-block: 5px solid transparent; }
+.motion-paused *, .motion-paused *::before, .motion-paused *::after { animation-play-state: paused !important; }
+
+@media (max-width: 1000px) {
+  .route__grid { grid-template-columns: 1fr; }
+  .route__map { max-width: 520px; }
+  .bridge__stage { grid-template-columns: 1fr; }
+  .bridge__frame { grid-column: 1; grid-row: 1; justify-self: center; }
+  .bridge__copy { grid-column: 1; grid-row: 1; align-self: end; z-index: 2; padding: 0 var(--pad) 18vh; max-width: none; background: linear-gradient(transparent, rgba(7, 11, 18, .85) 40%); padding-top: 60px; }
+  .site-footer__map { grid-template-columns: 1fr; }
+  .site-footer__map canvas { max-width: 320px; }
+}
+@media (max-width: 720px) {
+  .hero { height: 120vh; }
+  .climate { height: 190vh; }
+  .bridge { height: 220vh; }
+  .bridge__frame { height: 100%; width: 100%; aspect-ratio: auto; }
+  .route .board { grid-template-columns: 1fr 1fr; }
+  .pause span[data-pause-label] { display: none; }
+  .slats { height: 45vh; }
+  .sky { min-height: 100vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero { height: auto; }
+  .hero__sun, .outro::before, .outro::after { animation: none; }
+  .iris, .slats, .frost, .bridge__canvas, .bridge__dots { display: none; }
+  .bridge { height: auto; }
+  .bridge__stage { position: relative; height: 100svh; }
+  .airline i { transform: none; }
+}
+
+/* pré-carregador: relógio do amanhecer e saída em Neve */
+.preload__clock { color: var(--neve); font-variant-numeric: tabular-nums; margin-right: 10px; }
+.intro::after { content: ""; position: absolute; inset: 0; z-index: 3; background: var(--neve); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none; }
+.intro.is-dawn::after { opacity: 1; }
+.intro.is-leaving { transform: none; filter: none; }

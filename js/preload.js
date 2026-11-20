@@ -1,8 +1,10 @@
 /* HC Soluções — pré-carregador da tela de entrada.
    Mapa pontilhado de Aracaju e Barra dos Coqueiros (malhas do IBGE, ver
    tools/mapa/). Enquanto o site carrega, o atendimento "se espalha" a partir da
-   sede, na Barra, atravessa a ponte e chega a Aracaju; a temperatura cai de
-   32° para 22°. Ao terminar, a tela sai sozinha e o site aparece (sem botão).
+   sede, na Barra, atravessa a ponte e chega a Aracaju. É o começo do dia: o
+   relógio corre das 05h40 ao meio-dia e a temperatura SOBE de 26° para 32°
+   (o calor que o site vai resolver). Ao terminar, a tela amanhece até o
+   branco do hero e sai sozinha (sem botão).
    Um clique, toque, tecla ou rolagem pula a espera.
    Sem JavaScript ou com movimento reduzido a tela nem aparece. */
 (() => {
@@ -25,6 +27,7 @@
   const canvas = pre.querySelector('[data-preload-map]');
   const ctx = canvas.getContext('2d');
   const tempEl = pre.querySelector('[data-preload-temp]');
+  const clockEl = pre.querySelector('[data-preload-clock]');
   // cada item das listas acende numa fração do carregamento
   const items = [...pre.querySelectorAll('ul')].flatMap((ul) => {
     const lis = [...ul.children];
@@ -134,19 +137,23 @@
 
   let shown = 0, done = false, ending = false, lastT = -1;
   // saída: a tela sobe e desfoca, e o site começa
-  const finish = () => {
+  // saída: o céu clareia até o Neve do hero (amanhecer) e a tela sai
+  const finish = (fast) => {
     if (done) return;
     done = true;
-    intro.classList.remove('is-loading');
-    intro.classList.add('is-leaving');
-    root.classList.remove('intro-open');
-    window.dispatchEvent(new Event('hc:entered'));
     ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => window.removeEventListener(ev, skip));
-    setTimeout(() => intro.remove(), 1000);
+    intro.classList.remove('is-loading');
+    intro.classList.add('is-dawn');
+    setTimeout(() => {
+      intro.classList.add('is-leaving');
+      root.classList.remove('intro-open');
+      window.dispatchEvent(new Event('hc:entered'));
+      setTimeout(() => intro.remove(), 1000);
+    }, fast ? 250 : 650);
   };
   // quem não quiser esperar pula com um clique, toque, tecla ou rolagem
   const start = Date.now();
-  const skip = () => { if (Date.now() - start > 300) finish(); };
+  const skip = () => { if (Date.now() - start > 300) finish(true); };
   ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => window.addEventListener(ev, skip, { passive: true }));
 
   const frame = (now) => {
@@ -155,15 +162,17 @@
     const goal = elapsed > MAX ? 1 : Math.min(real >= 0.999 ? 1 : real, MIN ? elapsed / MIN : 1);
     shown += (goal - shown) * 0.08;
     if (goal === 1 && shown > 0.995) shown = 1;
-    const tmp = Math.round(32 - shown * 10);
+    const tmp = Math.round(26 + shown * 6);
     if (tmp !== lastT) {
       lastT = tmp;
       tempEl.textContent = tmp;
       pre.style.setProperty('--hot', clamp((tmp - 22) / 10).toFixed(2));
     }
+    const min = Math.round(340 + shown * 380);           // 05h40 → 12h00
+    clockEl.textContent = `${String(Math.floor(min / 60)).padStart(2, '0')}h${String(min % 60).padStart(2, '0')}`;
     items.forEach(({ li, at }) => li.classList.toggle('is-lit', shown >= at));
     draw(shown, now);
-    if (shown === 1 && !ending) { ending = true; setTimeout(finish, 650); }   // um instante a 22° antes de sair
+    if (shown === 1 && !ending) { ending = true; setTimeout(finish, 450); }   // um instante ao meio-dia antes de amanhecer
     requestAnimationFrame(frame);
   };
 

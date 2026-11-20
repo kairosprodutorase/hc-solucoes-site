@@ -220,6 +220,28 @@
   const fanIcon = hud.querySelector('.hud__fan');
   const LEVELS = ['Baixa', 'Média', 'Alta', 'Turbo'];
 
+  // termômetro-relógio: a hora da história vem das cenas (data-hora); no rodapé vira a hora real de Aracaju
+  const scenes = [...document.querySelectorAll('[data-hora]')]
+    .map((el) => ({ el, min: el.dataset.hora === 'now' ? null : (([h, m]) => +h * 60 + +m)(el.dataset.hora.split(':')) }));
+  const fmtNow = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'America/Maceio' });
+  const fmtMin = (m) => `${String(Math.floor(m / 60)).padStart(2, '0')}h${String(Math.round(m) % 60).padStart(2, '0')}`;
+  const storyClock = () => {
+    const mid = window.innerHeight * 0.5;
+    for (let i = scenes.length - 1; i >= 0; i--) {
+      const r = scenes[i].el.getBoundingClientRect();
+      if (r.top > mid) continue;
+      if (scenes[i].min === null) {
+        const label = document.querySelector('[data-open-label]');
+        return `Agora ${fmtNow.format(new Date()).replace(':', 'h')} · ${label ? label.textContent : ''}`;
+      }
+      const next = scenes[i + 1] && scenes[i + 1].min !== null ? scenes[i + 1].min : scenes[i].min + 30;
+      const f = clamp((mid - r.top) / Math.max(1, r.height));
+      return fmtMin(scenes[i].min + (next - scenes[i].min) * f);
+    }
+    return fmtMin(scenes.length && scenes[0].min !== null ? scenes[0].min : 720);
+  };
+  let lastClock = '';
+
   if (!reduceMotion) {
     document.body.appendChild(hud);
     let shownTemp = 32, prevY = scrollY(), prevT = performance.now(), angle = 0, lastLevel = -1, lastEmit = -1;
@@ -245,11 +267,13 @@
       }
       shownTemp += (goal - shownTemp) * 0.08;
       const t = Math.round(shownTemp);
+      const clockText = storyClock();
+      const state = clockText.startsWith('Agora') ? clockText : `${clockText} · ${t >= 29 ? 'Calor' : t >= 25 ? 'Resfriando' : 'Conforto'}`;
       if (tempEl.textContent !== String(t)) {
         tempEl.textContent = t;
-        stateEl.textContent = t >= 29 ? 'Calor' : t >= 25 ? 'Resfriando' : 'Conforto';
         hud.style.setProperty('--hot', clamp((t - 22) / 10).toFixed(2));
       }
+      if (state !== lastClock) { lastClock = state; stateEl.textContent = state; }
       if (level !== lastLevel) {
         lastLevel = level;
         fanEl.textContent = LEVELS[level];

@@ -23,27 +23,31 @@ Marca da HC Soluções — ar-condicionado e climatização. Apresentação em `
 
 **Proposta 01 (arquivada)**: H com aletas + C mostrador em lima. Arquivos em `assets/logo/proposta-01/`, PDF em `docs/hc-solucoes-identidade-visual-proposta-01.pdf`, gerador em `tools/logo/proposta-01/`.
 
-## Proposta do site — "Do complexo ao claro"
-Direção de arte provisória, aguardando aprovação do cliente. O conceito traduz "soluções" em experiência: o visitante rola a página e transforma ruído em forma.
+## Proposta do site — "Um dia em Aracaju"
+Roteiro definido em `reports/Roteiro de rolagem HC Soluções.md` (pesquisa em `research_notes/`). A página é um dia de serviço, do meio-dia (32°) à noite fresca (22°). Hora e temperatura correm juntas no termômetro-relógio do canto, e cada cena tem um tom de fundo da paleta (claro para ler, escuro para o impacto). A ponte Aracaju–Barra dos Coqueiros é o clímax.
 
-- **Hero interativo**: ~2.800 partículas em campo de fluxo (caos) se organizam no símbolo HC conforme o scroll — as do floco acendem em azul-gelo; o cursor dispersa as partículas.
-- **Split em 3D** (`js/split3d.js`, Three.js local em `js/vendor/three/`, licença MIT): aparelho modelado em código — plástico brilhante com reflexos, painel frontal, saída com palhetas, aleta articulada que abre conforme esfria, visor com a temperatura, logo aplicada, sombra na parede e partículas de ar frio. Gira levemente com o cursor. Sem WebGL, a ilustração em SVG continua no lugar.
-- **Climatização**: um split com a marca HC; ao rolar, o ambiente esfria de 32° para 22°, a aleta abre, o ar sai e a luz passa de laranja (calor) para azul (conforto) e flocos de neve começam a cair.
-- **PMOC em destaque**: selo no hero, item no menu e seção em três passos — (1) verificador interativo "Seu ambiente precisa de PMOC?" com resposta imediata, (2) o que o PMOC garante, (3) "Como funciona" em 4 etapas navegáveis (abas acessíveis por teclado) que marcam os itens do documento PMOC até o carimbo "Em dia". Base legal: Lei nº 13.589/2018. O contato aguarda os canais de atendimento.
-- **Sensação de ar**: correntes de vento quase transparentes atravessam a página e aceleram um pouco ao rolar (desativadas com movimento reduzido).
-- **Som ambiente**: começa desligado e liga no botão "Ativar som" do topo (navegadores bloqueiam áudio antes de um clique). Vento com rajadas naturais, fluxo do split que cresce conforme o aparelho liga na rolagem, zumbido grave do compressor e bipes ao ligar e ao chegar a 22°. Tudo sintetizado com Web Audio API — sem arquivos de áudio, sem direitos autorais, nada toca sem clique; pausa quando a aba fica oculta.
-- **Manifesto**: as palavras acendem uma a uma com a rolagem; termos-chave em serifa itálica.
-- **Método**: quatro etapas (Escutar, Mapear, Resolver, Acompanhar) com preenchimento em cor-sinal no hover/foco.
-- **Bastidores**: painel honesto com o estado do projeto (estrutura, identidade, conteúdo, lançamento).
-- **Encerramento**: assinatura tipográfica e relógio na hora local do visitante.
-- **Base de movimento** (`js/motion.js`, inspirada na análise em `docs/analise-experiencia-united-carriers.md`): rolagem suave com Lenis (local em `js/vendor/lenis/`, licença MIT), inclusive nos links do menu; títulos e textos de abertura entram palavra por palavra, subindo e saindo do desfoque; o cabeçalho sai ao descer, volta ao subir e sublinha a seção atual; cursor com o floco que gira e cresce sobre links, com onda no clique; letras embaralhadas no hover do menu e dos botões. Cursor e embaralhamento só no desktop com mouse.
-- **Pré-carregador** (`js/preload.js`): a tela de entrada abre com o mapa pontilhado de Aracaju, Barra dos Coqueiros e arredores, desenhado a partir das malhas municipais do IBGE (`tools/mapa/gerar-mapa.py` gera `js/intro-map.js`). Enquanto o site carrega de verdade (fontes e demais arquivos), os pontos acendem a partir da sede em Atalaia Nova, atravessam a ponte e chegam a Aracaju; as listas de atendimento e de serviços acendem junto e a temperatura no canto cai de 32° para 22°. Ao terminar, a tela sai sozinha e o site aparece, sem botão de entrar. Leva no mínimo ~1,8 s e nunca segura o visitante mais de 4,5 s; um clique, toque, tecla ou rolagem pula a espera. Com movimento reduzido a tela não aparece.
-- **Termômetro + ventilação**: ficha fixa no canto inferior esquerdo. Fica fora da abertura e da seção do split (que já mostra a temperatura) e depois marca 22°; a ventilação (baixa, média, alta, turbo) e o floco-hélice seguem a velocidade com que o visitante rola, e com o som ligado um sopro acompanha a ventilação.
+| Hora | Cena | Tom | Transição |
+|---|---|---|---|
+| 05h40 | Pré-carregador: mapa pontilhado (IBGE) acende da sede, cruza a ponte; relógio 05h40→12h e temperatura **subindo** 26°→32° | Noite | amanhece até o Neve e entra sozinho |
+| 12h | Hero: "Ar-condicionado em Aracaju", sol no canto, o mormaço sobe e as partículas formam o HC (floco em Azul HC) | Neve + laranja | o núcleo hexagonal do floco cresce e abre a cena seguinte |
+| 13h | O chamado (`#atendimento`): a linha sai da sede, atravessa a ponte e chega a Aracaju; cartões de atendimento e horário | Azul profundo | rolagem normal |
+| 14h | Do calor ao conforto: split 3D, fundo de Mormaço `#251617` para Azul profundo | escuro esfriando | a condensação embaça a tela até virar Neve |
+| 15h | Serviços: a linha de ar desce e acende cada cartão; Plano de Gestão em cartão escuro | Neve | aletas fecham em Azul profundo |
+| 16h | PMOC: guia e perguntas em painéis claros | Azul profundo | aletas fecham em Gelo claro |
+| 17h | A HC + Como contratar | Gelo claro `#C6E5FC` | o céu |
+| 18h | O céu esfria | Gelo claro → Azul HC → Noite | contínuo |
+| 18h30 | A volta pela ponte: voo de drone controlado pela rolagem (90 quadros WebP no desktop, 60 no celular; só os quadros perto do atual ficam decodificados); no fim a cidade vira os pontos do mapa | Noite | rolagem normal |
+| 19h | Contato com ondas de ar frio | Noite | — |
+| agora | Rodapé: o mapa do começo e a hora real de Aracaju com "aberto/fechado agora" | `#05080E` | — |
 
-Tipografia: Inter Tight, Instrument Serif e JetBrains Mono (Google Fonts). Cores em variáveis CSS no topo de `css/styles.css`.
-Acessibilidade: link de pular conteúdo, foco visível, navegação por teclado no Método, `prefers-reduced-motion` respeitado (sem animações, hero estático, sem rolagem suave, cursor ou termômetro) e conteúdo legível sem JavaScript.
-
-Textos de manifesto e método são genéricos e precisam de validação; nenhum serviço, contato ou dado do cliente foi inventado.
+- **Tons por cena**: classes `tom-claro`, `tom-gelo` e `tom-escuro` trocam texto, linhas e destaque juntos. No claro, o cinza secundário é `#4A5A70` (6,35:1 sobre Neve) e o destaque é Azul HC; Azul gelo e laranja nunca viram texto sobre claro.
+- **Termômetro-relógio** (`js/motion.js`): hora da história pelas marcas `data-hora` de cada cena; no rodapé, hora real de Aracaju. Ventilação segue a velocidade da rolagem.
+- **Pausar animações**: botão no topo (WCAG 2.2.2); a escolha fica guardada no navegador.
+- **Modo leve**: aparelho com até 4 GB/4 núcleos ou economia de dados → menos partículas e o voo com os quadros menores; com economia de dados, a ponte mostra um quadro e o botão "Ver o voo".
+- **Movimento reduzido**: sem pré-carregador, rolagem suave, cursor, termômetro, aletas, condensação ou voo (a ponte aparece em imagem fixa); todo o texto continua no HTML.
+- **Mantido do conceito anterior**: partículas, split 3D, PMOC, formulário que abre o WhatsApp, som sintetizado (começa desligado), cursor, letras embaralhadas, um botão de WhatsApp por tela.
+- **Vídeo da ponte**: voo FPV autorizado pelo autor, sem marca d'água; trecho de 16 a 45 s com tratamento de cor (pretos na Noite, estais no azul, sódio no laranja), em `assets/ponte/`.
+- **Ainda não feito do roteiro**: a migração dos pontos do mapa para as partículas (hoje é um amanhecer em fade), a trilha sonora por horário e as partículas formando o HC de novo no rodapé. A página tem ~21 telas no desktop (meta 14), por causa do conteúdo longo do PMOC.
 
 ## Arquivos
 - `index.html`: página inicial (proposta), acessível e responsiva
@@ -52,6 +56,8 @@ Textos de manifesto e método são genéricos e precisam de validação; nenhum 
 - `js/main.js`: camadas de interação (partículas, scroll, cartões, relógio). A página funciona sem JavaScript.
 - `js/air.js`: correntes de vento (canvas) e som ambiente (Web Audio)
 - `js/preload.js` e `js/intro-map.js`: pré-carregador e grade de pontos do mapa (gerada, não editar)
+- `js/scenes.js`: cenas do roteiro (floco que abre a cena, rota no mapa, linha de ar, aletas, voo da ponte, mapa do rodapé, pausar animações)
+- `assets/ponte/`: quadros do voo sobre a ponte (`d/` desktop, `m/` celular) e quadro único
 - `js/motion.js`: rolagem suave, revelação de títulos, cabeçalho, cursor, letras embaralhadas e termômetro
 - `assets/logo/`: arquivos da marca proposta; `assets/favicon.svg` usa o símbolo
 - `docs/`: PDF de apresentação da marca

@@ -5,6 +5,8 @@
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
+  const lite = document.documentElement.classList.contains('lite');
+  const paused = () => document.documentElement.classList.contains('motion-paused');
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const smooth = (t) => t * t * (3 - 2 * t);
 
@@ -16,9 +18,11 @@
 
   if (canvas && canvas.getContext) {
     const ctx = canvas.getContext('2d');
-    const css = getComputedStyle(document.documentElement);
+    // as cores vêm do tom da cena (hero claro: partículas em Noite, floco em Azul HC)
+    const css = getComputedStyle(hero);
     const INK = css.getPropertyValue('--ink').trim() || '#eef4fb';
     const ACCENT = css.getPropertyValue('--accent').trim() || '#7cc8ff';
+    const HEAT = '#ff6a3d';
     let W = 0, H = 0, dpr = 1, particles = [], visible = true, raf = 0;
     const pointer = { x: -9999, y: -9999, active: false };
 
@@ -46,7 +50,7 @@
         o.fillText('HC', cx, cy);
       }
       const data = o.getImageData(0, 0, W, H).data;
-      const max = mobile ? 1200 : 2800;
+      const max = lite ? (mobile ? 700 : 1200) : (mobile ? 1200 : 2800);
       let area = 0;
       for (let i = 3; i < data.length; i += 16) if (data[i] > 128) area += 4;
       const step = Math.max(3, Math.round(Math.sqrt(area / max)));
@@ -98,7 +102,7 @@
         if (!reduceMotion) {
           const a = flow(q.x, q.y, t);
           q.x += Math.cos(a) * q.speed;
-          q.y += Math.sin(a) * q.speed;
+          q.y += Math.sin(a) * q.speed - (1 - p) * q.speed * 0.9;   // o mormaço sobe enquanto o HC não se forma
           if (q.x < -10) q.x = W + 10; else if (q.x > W + 10) q.x = -10;
           if (q.y < -10) q.y = H + 10; else if (q.y > H + 10) q.y = -10;
 
@@ -119,7 +123,8 @@
         const py = q.y + (q.ty - q.y) * e + q.oy;
         q.px = px; q.py = py;
         ctx.globalAlpha = reduceMotion ? 0.3 : (q.gauge ? 0.35 + e * 0.65 : 0.3 + e * 0.55);
-        ctx.fillStyle = (q.gauge ? e > 0.5 : q.accent) ? ACCENT : INK;
+        // antes de formar, uma parte do mormaço é laranja; o floco acende em azul quando o HC se forma
+        ctx.fillStyle = q.gauge ? (e > 0.5 ? ACCENT : INK) : (q.accent && e < 0.5 ? HEAT : INK);
         ctx.fillRect(px, py, q.size, q.size);
       }
       ctx.globalAlpha = 1;
@@ -128,7 +133,7 @@
     const loop = (t) => {
       raf = 0;
       if (!visible) return;
-      draw(t);
+      if (!paused()) draw(t);
       raf = requestAnimationFrame(loop);
     };
 
@@ -239,8 +244,10 @@
 
     if (climate && !reduceMotion) {
       const r = climate.getBoundingClientRect();
-      const cp = clamp((-r.top / Math.max(1, r.height - window.innerHeight)) * 1.15);
+      const raw = clamp(-r.top / Math.max(1, r.height - window.innerHeight));
+      const cp = clamp(raw / 0.72);                       // chega aos 22° antes do fim
       climate.style.setProperty('--cp', cp.toFixed(4));
+      climate.style.setProperty('--fp', clamp((raw - 0.8) / 0.2).toFixed(4));   // condensação na saída
       const t = Math.round(32 - cp * 10);
       if (t !== lastTemp) {
         lastTemp = t;
@@ -458,7 +465,7 @@
   /* ---------- Relógio local e ano ---------- */
   const clock = document.querySelector('[data-clock]');
   if (clock) {
-    const fmt = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const fmt = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Maceio' });
     const tick = () => {
       const now = new Date();
       clock.textContent = fmt.format(now);

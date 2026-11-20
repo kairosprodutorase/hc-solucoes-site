@@ -12,13 +12,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="./css/styles.css">
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    // js + modo leve (aparelho modesto ou economia de dados) + animações pausadas pelo visitante
+    (function (r, n) {
+      r.classList.add('js');
+      var c = n.connection || {};
+      if ((n.deviceMemory && n.deviceMemory <= 4) || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || c.saveData) r.classList.add('lite');
+      if (c.saveData) r.classList.add('save-data');
+      try { if (localStorage.getItem('hc-motion') === 'paused') r.classList.add('motion-paused'); } catch (e) {}
+    })(document.documentElement, navigator);
+  </script>
   <script src="./js/main.js" defer></script>
   <script src="./js/air.js" defer></script>
   <script src="./js/intro-map.js" defer></script>
   <script src="./js/preload.js" defer></script>
   <script src="./js/vendor/lenis/lenis.min.js" defer></script>
   <script src="./js/motion.js" defer></script>
+  <script src="./js/scenes.js" defer></script>
   <script type="importmap">{ "imports": { "three": "./js/vendor/three/three.module.min.js" } }</script>
   <script type="module" src="./js/split3d.js"></script>
   <script type="application/ld+json">
@@ -72,7 +82,7 @@
       <ul class="preload__list preload__list--right mono">
         <li>Instalação</li><li>Manutenção</li><li>Limpeza e higienização</li><li>Infraestrutura</li><li>PMOC</li><li>Plano de gestão</li><li>Venda de máquinas</li>
       </ul>
-      <p class="preload__temp mono"><svg class="preload__flake"><use href="#snowflake"/></svg><b data-preload-temp>32</b><i>°</i></p>
+      <p class="preload__temp mono"><svg class="preload__flake"><use href="#snowflake"/></svg><span class="preload__clock" data-preload-clock>05h40</span><b data-preload-temp>26</b><i>°</i></p>
     </div>
   </div>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
@@ -94,6 +104,9 @@
       </ul>
     </nav>
     <div class="nav__end">
+      <button class="pause" type="button" data-pause aria-pressed="false" title="Pausar ou retomar as animações automáticas">
+        <span class="pause__icon" aria-hidden="true"></span><span data-pause-label>Pausar animações</span>
+      </button>
       <button class="sound" type="button" data-sound aria-pressed="false" title="Som ambiente: vento e ar-condicionado" hidden>
         <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
         <span data-sound-label>Ativar som</span>
@@ -102,17 +115,19 @@
   </header>
 
   <main id="conteudo">
-    <!-- 00 · HERO: partículas saem do caos e se organizam no símbolo HC conforme o scroll -->
-    <section class="hero" id="topo" aria-labelledby="hero-title" data-hero>
+    <!-- 12h · HERO (claro e quente): o mormaço sobe e as partículas se juntam no símbolo HC -->
+    <section class="hero tom-claro" id="topo" aria-labelledby="hero-title" data-hero data-hora="12:00">
       <div class="hero__stage">
+        <div class="hero__sun" aria-hidden="true"></div>
         <canvas class="hero__canvas" aria-hidden="true"></canvas>
+        <p class="hero__kicker mono"><span>12h</span> · <b>32°</b> em Aracaju</p>
         <h1 class="hero__title" id="hero-title">
-          <span class="line"><span>Do complexo</span></span>
-          <span class="line"><span>ao <em>claro.</em></span></span>
+          <span class="line"><span>Ar-condicionado</span></span>
+          <span class="line"><span>em <em>Aracaju.</em></span></span>
         </h1>
         <div class="hero__foot">
           <div class="hero__copy">
-            <p>Ar-condicionado em Aracaju e na Barra dos Coqueiros: instalação, manutenção, limpeza e PMOC.</p>
+            <p>Instalação, manutenção, limpeza e PMOC em Aracaju e na Barra dos Coqueiros. <b>Do calor ao conforto.</b></p>
             <div class="hero__actions">
               <a class="btn btn--primary" href="https://wa.me/5579996388938?text=Ol%C3%A1%2C%20HC%21%20Quero%20um%20or%C3%A7amento." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Orçamento sem custo</a>
               <a class="pmoc-badge" href="#pmoc"><b class="mono">PMOC</b><span>Obrigatório por lei</span><i aria-hidden="true">→</i></a>
@@ -122,13 +137,59 @@
       </div>
     </section>
 
-    <!-- 01 · CLIMATIZAÇÃO: o aparelho com a marca; o scroll esfria o ambiente -->
-    <section class="climate" id="clima" aria-labelledby="clima-title" data-climate>
+
+    <!-- 13h · O CHAMADO (escuro): o núcleo do floco abre a cena; a linha sai da sede, cruza a ponte e chega a Aracaju -->
+    <section class="route tom-escuro" id="atendimento" aria-labelledby="rota-title" data-route data-hora="13:00">
+      <div class="iris" aria-hidden="true" data-iris>
+        <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid slice"><path fill-rule="evenodd" d="M-5000-5000H5000V5000H-5000Z M0-6L5.2-3V3L0 6L-5.2 3V-3Z"/></svg>
+      </div>
+      <div class="route__grid">
+        <figure class="route__map">
+          <canvas data-route-map aria-hidden="true"></canvas>
+          <figcaption class="mono">Sede em Atalaia Nova · ponte Construtor João Alves · Aracaju</figcaption>
+        </figure>
+        <div class="route__copy">
+          <p class="mono idx">13h · O chamado</p>
+          <h2 id="rota-title" class="route__title">Da Barra para <em>Aracaju.</em></h2>
+          <p class="section__lede">A HC é da Barra dos Coqueiros e atravessa a ponte todos os dias para atender a capital. Orçamento sem custo, técnicos com TRT registrado no CFT.</p>
+          <ul class="board">
+        <li class="card is-done" data-tilt>
+          <span class="card__state mono">Sede</span>
+          <svg class="card__icon" aria-hidden="true"><use href="#i-pin"/></svg>
+          <h3>Barra dos Coqueiros</h3>
+          <p>Sede, Atalaia Nova e condomínios da orla e da rodovia.</p>
+        </li>
+        <li class="card is-active" data-tilt>
+          <span class="card__state mono">Capital</span>
+          <svg class="card__icon" aria-hidden="true"><use href="#i-pin"/></svg>
+          <h3>Aracaju</h3>
+          <p>Todos os bairros, de Jardins e Atalaia a Jabotiana e Centro.</p>
+        </li>
+        <li class="card" data-tilt data-open-card>
+          <span class="card__state mono" data-open-label>Horário</span>
+          <svg class="card__icon" aria-hidden="true"><use href="#i-clock"/></svg>
+          <h3>Seg a sex, 8h às 18h</h3>
+          <p>Sábado, 8h às 12h. <span data-open-detail></span></p>
+        </li>
+        <li class="card" data-tilt>
+          <span class="card__state mono">Orçamento</span>
+          <svg class="card__icon" aria-hidden="true"><use href="#i-wa"/></svg>
+          <h3>Sem custo</h3>
+          <p>Pelo WhatsApp ou no Direct. Pagamento no Pix ou no cartão.</p>
+        </li>
+      </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14h · DO CALOR AO CONFORTO (pico): mormaço → azul; na saída, a condensação embaça a tela e abre a cena clara -->
+    <section class="climate" id="clima" aria-labelledby="clima-title" data-climate data-hora="14:00">
       <div class="climate__stage">
+        <div class="frost" aria-hidden="true"></div>
         <div class="climate__air" aria-hidden="true"></div>
         <div class="climate__snow" aria-hidden="true" data-snow></div>
         <header class="climate__head">
-          <span class="mono idx">01</span>
+          <span class="mono idx">14h</span>
           <h2 id="clima-title" class="climate__title">Do calor ao <em>conforto.</em></h2>
         </header>
         <figure class="climate__unit" data-split3d>
@@ -186,13 +247,15 @@
       </div>
     </section>
 
-    <!-- 02 · SERVIÇOS -->
-    <section class="services section" id="servicos" aria-labelledby="servicos-title">
+    <!-- 15h · SERVIÇOS (claro): a linha de ar frio desce e acende cada cartão -->
+    <section class="services section tom-claro" id="servicos" aria-labelledby="servicos-title" data-hora="15:00">
       <header class="section__head">
-        <span class="mono idx">02</span>
+        <span class="mono idx">15h</span>
         <h2 id="servicos-title" class="mono label">Serviços</h2>
         <p class="section__lede">Do projeto à manutenção. Orçamento sem custo, com a visita agendada no melhor horário.</p>
       </header>
+      <div class="airline-wrap" data-airline>
+      <span class="airline" aria-hidden="true"><i></i></span>
       <ul class="svc-grid">
         <li class="svc">
           <span class="mono svc__tag">Instalação</span>
@@ -232,8 +295,9 @@
           <a class="svc__cta" href="https://wa.me/5579996388938?text=Ol%C3%A1%2C%20HC%21%20Quero%20ajuda%20para%20escolher%20e%20comprar%20um%20aparelho." target="_blank" rel="noopener">Pedir orçamento <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
       </ul>
+      </div>
 
-      <div class="biz" id="empresas">
+      <div class="biz tom-escuro" id="empresas">
         <div class="biz__intro">
           <p class="mono biz__tag">Para empresas</p>
           <h3 class="biz__title">Plano de Gestão em <em>Climatização.</em></h3>
@@ -255,13 +319,15 @@
       </div>
     </section>
 
-    <!-- 03 · PMOC: destaque -->
-    <section class="pmoc" id="pmoc" aria-labelledby="pmoc-title">
+    <div class="slats" data-slats style="--from:#EEF4FB;--to:#0B1E3A" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+    <!-- 16h · PMOC (escuro); guia e perguntas em painéis claros para leitura -->
+    <section class="pmoc tom-escuro" id="pmoc" aria-labelledby="pmoc-title" data-hora="16:00">
       <div class="pmoc__glow" aria-hidden="true"></div>
 
       <header class="pmoc__head">
         <div class="pmoc__eyebrow">
-          <span class="mono pmoc__tag">03 · Destaque</span>
+          <span class="mono pmoc__tag">16h · Empresas</span>
           <span class="mono pmoc__law">Lei nº 13.589/2018</span>
         </div>
         <h2 id="pmoc-title" class="pmoc__title">
@@ -386,7 +452,7 @@
       </ul>
 
       <!-- Guia do PMOC em abas -->
-      <div class="guide" data-tabs>
+      <div class="guide tom-claro" data-tabs>
         <div class="guide__head">
           <p class="mono check__step">Guia do PMOC</p>
           <div class="guide__tabs" role="tablist" aria-label="Guia do PMOC">
@@ -463,7 +529,7 @@
       </div>
 
       <!-- Perguntas frequentes -->
-      <div class="faq">
+      <div class="faq tom-claro">
         <div class="faq__intro">
           <p class="mono check__step">Central de dúvidas</p>
           <h3 class="flow__title">Perguntas <em>frequentes.</em></h3>
@@ -506,10 +572,12 @@
       </div>
     </section>
 
-    <!-- 04 · MANIFESTO -->
-    <section class="manifesto section" id="manifesto" aria-labelledby="manifesto-title">
+    <div class="slats" data-slats style="--from:#0A1830;--to:#C6E5FC" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+    <!-- 17h · A HC E COMO CONTRATAR (gelo claro) -->
+    <section class="manifesto section tom-gelo" id="manifesto" aria-labelledby="manifesto-title" data-hora="17:00">
       <header class="section__head">
-        <span class="mono idx">04</span>
+        <span class="mono idx">17h</span>
         <h2 id="manifesto-title" class="mono label">A HC</h2>
       </header>
       <p class="manifesto__text" data-words>
@@ -520,17 +588,16 @@
     </section>
 
     <!-- Faixa contínua -->
-    <div class="marquee" aria-hidden="true">
+    <div class="marquee tom-gelo" aria-hidden="true">
       <div class="marquee__track">
         <span>Instalação <em>·</em> Manutenção <em>·</em> Higienização <em>·</em> Infraestrutura <em>·</em> PMOC <em>·</em> Venda de máquinas <em>·</em></span>
         <span>Instalação <em>·</em> Manutenção <em>·</em> Higienização <em>·</em> Infraestrutura <em>·</em> PMOC <em>·</em> Venda de máquinas <em>·</em></span>
       </div>
     </div>
 
-    <!-- 05 · COMO CONTRATAR -->
-    <section class="method section" id="como-contratar" aria-labelledby="metodo-title">
+    <section class="method section tom-gelo" id="como-contratar" aria-labelledby="metodo-title" data-hora="17:30">
       <header class="section__head">
-        <span class="mono idx">05</span>
+        <span class="mono idx">17h30</span>
         <h2 id="metodo-title" class="mono label">Como contratar</h2>
         <p class="section__lede">Três passos e pronto. Pagamento no Pix ou no cartão.</p>
       </header>
@@ -566,44 +633,32 @@
       </div>
     </section>
 
-    <!-- 06 · ONDE ATENDEMOS -->
-    <section class="backstage section" id="atendimento" aria-labelledby="bastidores-title">
-      <header class="section__head">
-        <span class="mono idx">06</span>
-        <h2 id="bastidores-title" class="mono label">Onde atendemos</h2>
-        <p class="section__lede">Atendimento em Aracaju e na Barra dos Coqueiros: a HC é da Barra e atravessa a ponte todos os dias para atender a capital.</p>
-      </header>
-      <ul class="board">
-        <li class="card is-done" data-tilt>
-          <span class="card__state mono">Sede</span>
-          <svg class="card__icon" aria-hidden="true"><use href="#i-pin"/></svg>
-          <h3>Barra dos Coqueiros</h3>
-          <p>Sede, Atalaia Nova e condomínios da orla e da rodovia.</p>
-        </li>
-        <li class="card is-active" data-tilt>
-          <span class="card__state mono">Capital</span>
-          <svg class="card__icon" aria-hidden="true"><use href="#i-pin"/></svg>
-          <h3>Aracaju</h3>
-          <p>Todos os bairros, de Jardins e Atalaia a Jabotiana e Centro.</p>
-        </li>
-        <li class="card" data-tilt data-open-card>
-          <span class="card__state mono" data-open-label>Horário</span>
-          <svg class="card__icon" aria-hidden="true"><use href="#i-clock"/></svg>
-          <h3>Seg a sex, 8h às 18h</h3>
-          <p>Sábado, 8h às 12h. <span data-open-detail></span></p>
-        </li>
-        <li class="card" data-tilt>
-          <span class="card__state mono">Orçamento</span>
-          <svg class="card__icon" aria-hidden="true"><use href="#i-wa"/></svg>
-          <h3>Sem custo</h3>
-          <p>Pelo WhatsApp ou no Direct. Pagamento no Pix ou no cartão.</p>
-        </li>
-      </ul>
+    <!-- 18h · O CÉU ESFRIA: gelo claro → azul HC → noite; o azul do céu continua nos estais da ponte -->
+    <section class="sky" aria-labelledby="ceu-title" data-hora="18:00">
+      <p class="mono sky__kicker">18h</p>
+      <h2 class="sky__title" id="ceu-title">O calor <em>vai embora.</em></h2>
     </section>
 
-    <!-- 07 · CONTATO -->
-    <section class="outro" id="contato" aria-labelledby="outro-title">
-      <p class="outro__kicker mono">07 · Contato</p>
+    <!-- 18h30 · A VOLTA PELA PONTE (clímax): voo de drone controlado pela rolagem -->
+    <section class="bridge" id="ponte" aria-labelledby="ponte-title" data-bridge data-hora="18:30">
+      <div class="bridge__stage">
+        <div class="bridge__frame">
+          <img class="bridge__poster" src="./assets/ponte/poster.webp" width="720" height="1280" loading="lazy" decoding="async" alt="Ponte Construtor João Alves, que liga Aracaju à Barra dos Coqueiros, iluminada à noite em azul, vista de drone com a cidade acesa no horizonte">
+          <canvas class="bridge__canvas" data-bridge-canvas aria-hidden="true"></canvas>
+          <canvas class="bridge__dots" data-bridge-dots aria-hidden="true"></canvas>
+          <button class="bridge__play mono" type="button" data-bridge-play hidden>Ver o voo</button>
+        </div>
+        <div class="bridge__copy">
+          <p class="mono idx">18h30 · A volta</p>
+          <h2 class="bridge__title" id="ponte-title">Da Barra para Aracaju, <em>todo dia.</em></h2>
+          <p class="bridge__lede">A ponte Construtor João Alves, cartão-postal da cidade, é o caminho da HC até você.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 19h · NOITE FRESCA: contato -->
+    <section class="outro" id="contato" aria-labelledby="outro-title" data-hora="19:00">
+      <p class="outro__kicker mono">19h · Contato</p>
       <h2 class="contact__title" id="outro-title">Vamos cuidar <em>do seu ar?</em></h2>
       <div class="contact">
         <div class="contact__direct">
@@ -633,7 +688,11 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" data-hora="now">
+    <div class="site-footer__map">
+      <canvas data-foot-map aria-hidden="true"></canvas>
+      <p class="mono site-footer__now"><span>Agora em Aracaju</span> <time data-clock>--:--</time> · <b data-open-label>Horário</b></p>
+    </div>
     <div class="site-footer__grid">
       <div class="site-footer__brand">
         <p>Instalação, manutenção, higienização, infraestrutura e PMOC de ar-condicionado para casas, comércio, empresas e indústria em Aracaju e na Barra dos Coqueiros.</p>
