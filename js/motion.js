@@ -105,7 +105,7 @@
   if (nav) nav.addEventListener('focusin', () => { navHidden = false; nav.classList.remove('is-away'); });
 
   /* ---------- Letras embaralhadas no hover (só desktop) ---------- */
-  const scrambleTargets = '.nav ul a, .btn, .pmoc-badge span, .site-footer a, .intro__mute';
+  const scrambleTargets = '.nav ul a, .btn, .pmoc-badge span, .site-footer a';
   const textHost = (el) => {
     // botões com ícone: embaralha só o texto, nunca o SVG
     const nodes = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim());

@@ -100,8 +100,6 @@
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!btn || !AC) {
     if (btn) btn.hidden = true;
-    const intro = document.querySelector('[data-intro]');
-    if (intro) intro.remove();
     return;
   }
 
@@ -251,25 +249,4 @@
     if (!audio || !on) return;
     if (document.hidden) audio.ctx.suspend(); else audio.ctx.resume();
   });
-
-  /* ---------- Tela de entrada: o clique em "Entrar" libera o som ---------- */
-  const intro = document.querySelector('[data-intro]');
-  if (intro) {
-    const root = document.documentElement;
-    const enter = intro.querySelector('[data-intro-enter]');
-    const mute = intro.querySelector('[data-intro-mute]');
-    const close = (withSound) => {
-      if (withSound) setOn(true);
-      intro.classList.add('is-leaving');
-      root.classList.remove('intro-open');
-      window.dispatchEvent(new Event('hc:entered'));
-      setTimeout(() => { intro.hidden = true; }, 1000);
-    };
-    intro.hidden = false;
-    root.classList.add('intro-open');
-    enter.focus({ preventScroll: true });
-    enter.addEventListener('click', () => close(true));
-    mute.addEventListener('click', () => close(false));
-    intro.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(false); });
-  }
 })();

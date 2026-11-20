@@ -62,8 +62,8 @@
       </g>
     </symbol>
   </svg>
-  <div class="intro" data-intro role="dialog" aria-modal="true" aria-labelledby="intro-title" hidden>
-    <!-- Pré-carregador: mapa pontilhado de Aracaju e Barra dos Coqueiros (malhas do IBGE) que acende a partir da sede; a temperatura cai de 32° a 22° com o carregamento -->
+  <div class="intro" data-intro aria-hidden="true" hidden>
+    <!-- Pré-carregador: mapa pontilhado de Aracaju e Barra dos Coqueiros (malhas do IBGE) que acende a partir da sede; a temperatura cai de 32° a 22° com o carregamento e o site entra sozinho -->
     <div class="preload" data-preload aria-hidden="true">
       <canvas class="preload__map" data-preload-map></canvas>
       <ul class="preload__list preload__list--left mono">
@@ -73,17 +73,6 @@
         <li>Instalação</li><li>Manutenção</li><li>Limpeza e higienização</li><li>Infraestrutura</li><li>PMOC</li><li>Plano de gestão</li><li>Venda de máquinas</li>
       </ul>
       <p class="preload__temp mono"><svg class="preload__flake"><use href="#snowflake"/></svg><b data-preload-temp>32</b><i>°</i></p>
-    </div>
-    <p class="sr-only" data-preload-status role="status">Carregando o site…</p>
-    <div class="intro__inner">
-      <svg class="intro__symbol" aria-hidden="true"><use href="#hc-symbol"/></svg>
-      <p class="intro__title" id="intro-title">Soluções <em>em climatização</em></p>
-      <button class="intro__enter" type="button" data-intro-enter>
-        <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-        Entrar <span class="intro__hint">com som</span>
-      </button>
-      <button class="intro__mute mono" type="button" data-intro-mute>Entrar sem som</button>
-      <p class="intro__note mono">Experiência com som ambiente · use fones para sentir o ar</p>
     </div>
   </div>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
